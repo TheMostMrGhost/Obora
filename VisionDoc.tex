@@ -1,0 +1,57 @@
+\documentclass[10pt]{article}
+\usepackage{polski}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb}
+\usepackage{parskip}
+\usepackage{amsthm}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{tikz}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{makeidx}
+\usepackage{amsmath}
+\makeindex
+\pagestyle{headings}
+
+\date{}
+\title{\vspace*{-30pt} Bazy danych, projekt zaliczniowy}
+\author{Mikołaj Duch, Adam Wojciechowski}
+\begin{document}
+
+    \maketitle
+
+    Projekt ma na celu obsługę gier na internetowego serwisu gier. 
+    Wobec tego system obsługi danych zebranych podczas poszczególnych gier powinien umożliwiać:
+    \begin{enumerate}
+        \item Tworzenie kont użytkowników, w tym:
+            \begin{enumerate}
+                \item Konto amatorskie, dla zwykłych użytkowników.
+                \item Konto profesjonalne, dla osób biorących udział w turniejach i wygrywających nagrody.
+                \item Konto drużynowe, dla drużyn biorących udział w turniejach.
+            \end{enumerate}
+        \item Tworzenie rankingów, przy czym:
+        \begin{enumerate}
+            \item Domyślnym rankingiem dla każdej gry będzie ranking Elo. 
+            \item Możliwa będzie także reprezentacja innego sposobu wyliczania rankingu, jak np. w brydżu 
+            sportowym.
+            \item Rankingi będzie można dostosowywać według pewnych kryteriów, takich jak ranking 
+            potyczek przeciw konkretnemu graczowi, czy ranking w regionie.
+            \item Tworzenie rankingów turniejowych, obowiazujących w ramach danego konkursu.
+        \end{enumerate}
+        \item Obsługę turniejów, w tym:
+            \begin{enumerate}
+                \item Wybieranie reprezentacji regionu na podstawie określonego rankingu.
+                \item Tworzenie grup początkowych z uwzględnieniem siły graczy.
+                \item Prezentacja wyników turnieju w formie drabinki.
+            \end{enumerate}
+        \item Zapis przebiegu partii,
+    \end{enumerate}
+
+    Dane dotyczące rankingów i wyników pozyskiwać będziemy, o ile to możliwe, z danych rzeczywistych.
+    Dla gier które nie mają powszechnie dostępnych list rankingowych będziemy pobierać dane z innego 
+    rankingu (zapewne z turniejów sportowych). 
+
+    
+
+
+\end{document}
