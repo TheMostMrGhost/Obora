@@ -21,14 +21,10 @@
     \maketitle
 
     Projekt ma na celu obsługę gier na internetowego serwisu gier. 
-    Wobec tego system obsługi danych zebranych podczas poszczególnych gier powinien umożliwiać:
+    Wobec tego stworzona przez nas baza danych powinna umożliwiać:
     \begin{enumerate}
-        \item Tworzenie kont użytkowników, w tym:
-            \begin{enumerate}
-                \item Konto amatorskie, dla zwykłych użytkowników.
-                \item Konto profesjonalne, dla osób biorących udział w turniejach i wygrywających nagrody.
-                \item Konto drużynowe, dla drużyn biorących udział w turniejach.
-            \end{enumerate}
+        \item Tworzenie kont użytkowników: amatorskie, profesjonalne, drużynowe.
+        \item Dodawanie/usuwanie znajomych.
         \item Tworzenie rankingów, przy czym:
         \begin{enumerate}
             \item Domyślnym rankingiem dla każdej gry będzie ranking Elo. 
@@ -44,12 +40,16 @@
                 \item Tworzenie grup początkowych z uwzględnieniem siły graczy.
                 \item Prezentacja wyników turnieju w formie drabinki.
             \end{enumerate}
-        \item Zapis przebiegu partii,
+        \item Zapis przebiegu partii.
+        \item Pobranie przebiegu partii.
+        \item Prezentacja statystyk zbiorczych: łączna liczba wygranych, przegranych, procentowa liczba wygranych do przegranych.
+        \item Dodawanie nowych gier.
     \end{enumerate}
 
     Dane dotyczące rankingów i wyników pozyskiwać będziemy, o ile to możliwe, z danych rzeczywistych.
     Dla gier które nie mają powszechnie dostępnych list rankingowych będziemy pobierać dane z innego 
-    rankingu (zapewne z turniejów sportowych). 
+    rankingu (zapewne z turniejów sportowych), o ile prezentowane tam dane będą pasowały do kontekstu. 
+    W razie gdyby takich nie było będziemy je wymyślać/modyfikować.
 
     
 
