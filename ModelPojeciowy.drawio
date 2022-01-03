@@ -1,0 +1,285 @@
+<mxfile host="65bd71144e">
+    <diagram id="TWOYTY01t9Z3wVeYMiBx" name="Page-1">
+        <mxGraphModel dx="3823" dy="2066" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" background="#ffffff" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="2" value="Konto" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;rounded=1;fillColor=#60a917;strokeColor=#2D7600;fontColor=#ffffff;" vertex="1" parent="1">
+                    <mxGeometry x="200" y="230" width="160" height="130" as="geometry"/>
+                </mxCell>
+                <mxCell id="3" value="- id : Int&#10;- region : String&#10;- nick : String&#10;- hasło : String&#10;- email : String" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rounded=1;" vertex="1" parent="2">
+                    <mxGeometry y="26" width="160" height="104" as="geometry"/>
+                </mxCell>
+                <mxCell id="63" value="" style="endArrow=none;html=1;edgeStyle=orthogonalEdgeStyle;entryX=-0.005;entryY=0.333;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="2" source="2" target="3">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="160" y="60" as="sourcePoint"/>
+                        <mxPoint x="-50" y="-30" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="80" y="-30"/>
+                            <mxPoint x="-40" y="-30"/>
+                            <mxPoint x="-40" y="61"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="64" value="0..*" style="edgeLabel;resizable=0;html=1;align=left;verticalAlign=bottom;" connectable="0" vertex="1" parent="63">
+                    <mxGeometry x="-1" relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="65" value="0..*" style="edgeLabel;resizable=0;html=1;align=right;verticalAlign=bottom;" connectable="0" vertex="1" parent="63">
+                    <mxGeometry x="1" relative="1" as="geometry">
+                        <mxPoint x="-10" y="-5" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="66" value="Są znajomymi" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="63">
+                    <mxGeometry x="-0.0376" y="2" relative="1" as="geometry">
+                        <mxPoint x="6" y="-13" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="6" value="KontoProfesjonalne" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;rounded=1;fillColor=#60a917;strokeColor=#2D7600;fontColor=#ffffff;" vertex="1" parent="1">
+                    <mxGeometry y="460" width="180" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="7" value="- nr_konta_bankowego : Int" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rounded=1;" vertex="1" parent="6">
+                    <mxGeometry y="26" width="180" height="34" as="geometry"/>
+                </mxCell>
+                <mxCell id="8" value="Extends" style="endArrow=block;endSize=16;endFill=0;html=1;" edge="1" parent="1" source="6" target="2">
+                    <mxGeometry width="160" relative="1" as="geometry">
+                        <mxPoint x="90" y="360" as="sourcePoint"/>
+                        <mxPoint x="250" y="360" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="9" value="KontoDrużynowe" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;rounded=1;fillColor=#60a917;strokeColor=#2D7600;fontColor=#ffffff;" vertex="1" parent="1">
+                    <mxGeometry x="340" y="490" width="160" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="10" value="- id_druzyny : Int&#10;- id_członka : Int" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rounded=1;" vertex="1" parent="9">
+                    <mxGeometry y="26" width="160" height="54" as="geometry"/>
+                </mxCell>
+                <mxCell id="12" value="0..*" style="endArrow=open;html=1;endSize=12;startArrow=diamondThin;startSize=14;startFill=0;edgeStyle=orthogonalEdgeStyle;align=left;verticalAlign=bottom;" edge="1" parent="1" source="9" target="2">
+                    <mxGeometry x="-0.8462" y="-20" relative="1" as="geometry">
+                        <mxPoint x="260" y="470" as="sourcePoint"/>
+                        <mxPoint x="420" y="470" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="410" y="380"/>
+                            <mxPoint x="280" y="380"/>
+                        </Array>
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="67" value="Wchodzi w skład -&amp;gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="12">
+                    <mxGeometry x="-0.3162" y="2" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="16" value="Konto drużynowe jest tak naprawdę pojemnikiem agregującym konta. Zabieg ten pozwala na utworzeniu drużyny turniejowej i np. określaniu miejsc w turnieju od razu dla całego zaspołu zamiast liczyć pozycję osobno dla każdego gracza." style="shape=note2;boundedLbl=1;whiteSpace=wrap;html=1;size=25;verticalAlign=top;align=center;rounded=1;" vertex="1" parent="1">
+                    <mxGeometry x="240" y="580" width="286" height="130" as="geometry"/>
+                </mxCell>
+                <mxCell id="17" value="UkończonaRozgrywka" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;rounded=1;fillColor=#60a917;strokeColor=#2D7600;fontColor=#ffffff;" vertex="1" parent="1">
+                    <mxGeometry x="540" y="160" width="160" height="130" as="geometry"/>
+                </mxCell>
+                <mxCell id="18" value="- id_rozgrywki : Int&#10;- gracz1 : Int&#10;- gracz2 : Int&#10;- wygrany : Int&#10;- gra : String&#10;- przebieg_partii : String" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rounded=1;" vertex="1" parent="17">
+                    <mxGeometry y="26" width="160" height="104" as="geometry"/>
+                </mxCell>
+                <mxCell id="19" value="Inaczej Historia, ale tu związki 1 - 0..1 mają większy sens&lt;br&gt;Null w wygranym jeśli jest remis, reszta nienullowalna" style="shape=note2;boundedLbl=1;whiteSpace=wrap;html=1;size=25;verticalAlign=top;align=center;rounded=1;" vertex="1" parent="1">
+                    <mxGeometry x="450" y="20" width="210" height="110" as="geometry"/>
+                </mxCell>
+                <mxCell id="23" value="Zauważmy, ze model Ukończonej Gry jest łatwo rozszerzalny ze względu na liczbę graczy: po prostu dodajemy dodatkowe kolumny dla graczy, a&amp;nbsp; pozostałe kolumny się nie zmieniają" style="shape=note2;boundedLbl=1;whiteSpace=wrap;html=1;size=25;verticalAlign=top;align=center;rounded=1;" vertex="1" parent="1">
+                    <mxGeometry x="730" y="160" width="210" height="110" as="geometry"/>
+                </mxCell>
+                <mxCell id="24" value="Punkty" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;rounded=1;fillColor=#60a917;strokeColor=#2D7600;fontColor=#ffffff;" vertex="1" parent="1">
+                    <mxGeometry x="550" y="400" width="160" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="25" value="- liczba_punktów : Int&#10;- gra : String" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rounded=1;" vertex="1" parent="24">
+                    <mxGeometry y="26" width="160" height="54" as="geometry"/>
+                </mxCell>
+                <mxCell id="26" value="Dokładne wyliczanie punktów robimy na poziomie interfejsu, dzięki temu łatwo będzie można dodawać/ modyfikować formułę wyliczania rankingu bądź zdobywania punktów. Ranking jako taki to interfejs porządkujący graczy z zadaną formułą&lt;br&gt;&lt;br&gt;Możemy także dodać nową tabelę z odpowiednio wyliczanymi punktami" style="shape=note2;boundedLbl=1;whiteSpace=wrap;html=1;size=25;verticalAlign=top;align=center;rounded=1;" vertex="1" parent="1">
+                    <mxGeometry x="630" y="510" width="310" height="170" as="geometry"/>
+                </mxCell>
+                <mxCell id="27" value="Znajomi" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;rounded=1;fillColor=#f0e05f;strokeColor=#2A7600;fontColor=#ffffff;" vertex="1" parent="1">
+                    <mxGeometry x="-125" y="250" width="160" height="70" as="geometry">
+                        <mxRectangle x="-125" y="250" width="80" height="26" as="alternateBounds"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="28" value="- id1 : Int&#10;- id2 : Int" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rounded=1;" vertex="1" parent="27">
+                    <mxGeometry y="26" width="160" height="44" as="geometry"/>
+                </mxCell>
+                <mxCell id="29" value="Więz w postaci UNIQUE(id1, id2)" style="shape=note2;boundedLbl=1;whiteSpace=wrap;html=1;size=25;verticalAlign=top;align=center;rounded=1;" vertex="1" parent="1">
+                    <mxGeometry x="-150" y="180" width="210" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="32" value="Gra" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;rounded=1;fillColor=#60a917;strokeColor=#2D7600;fontColor=#ffffff;" vertex="1" parent="1">
+                    <mxGeometry x="160" y="80" width="160" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="33" value="- nazwa : String&#10;- nazwa_rankingu : String" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rounded=1;" vertex="1" parent="32">
+                    <mxGeometry y="26" width="160" height="54" as="geometry"/>
+                </mxCell>
+                <mxCell id="34" value="Więz UNIQUE(nazwa, nazwa_rankingu)&lt;br&gt;&lt;br&gt;Z poziomu interfejsu wybieramy który ranking chcemy dla gry i odpowiednie zapytanie pokazuje nam odpowiednią tabelę" style="shape=note2;boundedLbl=1;whiteSpace=wrap;html=1;size=25;verticalAlign=top;align=center;rounded=1;" vertex="1" parent="1">
+                    <mxGeometry x="100" y="-70" width="250" height="110" as="geometry"/>
+                </mxCell>
+                <mxCell id="35" value="Turnieje" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;rounded=1;fillColor=#60a917;strokeColor=#2D7600;fontColor=#ffffff;" vertex="1" parent="1">
+                    <mxGeometry x="-315" y="380" width="190" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="36" value="- id_turnieju : Int &#10;- nazwa : String&#10;- data_przeprowadzenia : Date" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rounded=1;" vertex="1" parent="35">
+                    <mxGeometry y="26" width="190" height="64" as="geometry"/>
+                </mxCell>
+                <mxCell id="37" value="UczestnikTurnieju" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;rounded=1;fillColor=#60a917;strokeColor=#2D7600;fontColor=#ffffff;" vertex="1" parent="1">
+                    <mxGeometry x="-420" y="545" width="160" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="38" value="- id_gracza : Int&#10;- punkty_w_turnieju : Int" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rounded=1;" vertex="1" parent="37">
+                    <mxGeometry y="26" width="160" height="74" as="geometry"/>
+                </mxCell>
+                <mxCell id="39" value="1" style="endArrow=open;html=1;endSize=12;startArrow=diamondThin;startSize=14;startFill=1;edgeStyle=orthogonalEdgeStyle;align=left;verticalAlign=bottom;" edge="1" parent="1" source="35" target="37">
+                    <mxGeometry x="-0.84" y="20" relative="1" as="geometry">
+                        <mxPoint x="-210" y="500" as="sourcePoint"/>
+                        <mxPoint x="-50" y="550" as="targetPoint"/>
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="72" value="Biorą udział" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="39">
+                    <mxGeometry x="0.1753" y="-2" relative="1" as="geometry">
+                        <mxPoint x="6" y="-20" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="73" value="2..*" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="39">
+                    <mxGeometry x="0.9113" y="2" relative="1" as="geometry">
+                        <mxPoint x="18" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="40" value="Rozgrywki realizowane są na poziomie interfejsu, tu trafiają jedynie dane&amp;nbsp;" style="shape=note2;boundedLbl=1;whiteSpace=wrap;html=1;size=25;verticalAlign=top;align=center;rounded=1;" vertex="1" parent="1">
+                    <mxGeometry x="-410" y="300" width="210" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="41" value="GryNaAktualnymPoziomieTurnieju" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;rounded=1;fillColor=#60a917;strokeColor=#2D7600;fontColor=#ffffff;" vertex="1" parent="1">
+                    <mxGeometry x="-125" y="585" width="250" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="42" value="- gracz1 : Int&#10;- gracz2 : Int&#10;- wygrany : Int " style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rounded=1;" vertex="1" parent="41">
+                    <mxGeometry y="26" width="250" height="74" as="geometry"/>
+                </mxCell>
+                <mxCell id="43" value="Przyjmujemy, że w turnieju nie ma remisów, tzn. gracze grają dokąd któryś nie wygra" style="shape=note2;boundedLbl=1;whiteSpace=wrap;html=1;size=25;verticalAlign=top;align=center;rounded=1;" vertex="1" parent="1">
+                    <mxGeometry x="-210" y="680" width="210" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="44" value="HistoriaTurnieju" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;rounded=1;fillColor=#60a917;strokeColor=#2D7600;fontColor=#ffffff;" vertex="1" parent="1">
+                    <mxGeometry x="-690" y="420" width="250" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="45" value="- id_turnieju : Int&#10;- gracz1 : Int &#10;- gracz2 : Int&#10;- przebieg_partii : String" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rounded=1;" vertex="1" parent="44">
+                    <mxGeometry y="26" width="250" height="74" as="geometry"/>
+                </mxCell>
+                <mxCell id="46" value="Kluczem jest cały rekord, bo zakładamy, że w turnieju ci sami gracze nie grają na siebie dwukrotnie (jeśli jest remist i muszą grać jeszcze raz, to z punktu widzenia bazy danych nie jest to gra dwukrotna, bo do tabeli trafia informacja tylko z jednego meczu)" style="shape=note2;boundedLbl=1;whiteSpace=wrap;html=1;size=25;verticalAlign=top;align=center;rounded=1;" vertex="1" parent="1">
+                    <mxGeometry x="-840" y="250" width="310" height="130" as="geometry"/>
+                </mxCell>
+                <mxCell id="47" value="" style="endArrow=none;html=1;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="2" target="24">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="520" y="490" as="sourcePoint"/>
+                        <mxPoint x="680" y="490" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="630" y="360"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="48" value="1" style="edgeLabel;resizable=0;html=1;align=left;verticalAlign=bottom;" connectable="0" vertex="1" parent="47">
+                    <mxGeometry x="-1" relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="49" value="0..*" style="edgeLabel;resizable=0;html=1;align=right;verticalAlign=bottom;" connectable="0" vertex="1" parent="47">
+                    <mxGeometry x="1" relative="1" as="geometry">
+                        <mxPoint x="-30" y="-10" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="50" value="Zdobywa -&amp;gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="47">
+                    <mxGeometry x="-0.0376" y="2" relative="1" as="geometry">
+                        <mxPoint x="-9" y="-8" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="51" value="" style="endArrow=none;html=1;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="2" target="17">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="370" y="370" as="sourcePoint"/>
+                        <mxPoint x="640" y="410" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="380" y="230"/>
+                            <mxPoint x="380" y="255"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="52" value="2" style="edgeLabel;resizable=0;html=1;align=left;verticalAlign=bottom;" connectable="0" vertex="1" parent="51">
+                    <mxGeometry x="-1" relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="53" value="0..*" style="edgeLabel;resizable=0;html=1;align=right;verticalAlign=bottom;" connectable="0" vertex="1" parent="51">
+                    <mxGeometry x="1" relative="1" as="geometry">
+                        <mxPoint x="-10" y="-5" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="54" value="Brało udział w&amp;nbsp; -&amp;gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="51">
+                    <mxGeometry x="-0.0376" y="2" relative="1" as="geometry">
+                        <mxPoint x="6" y="-13" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="68" value="" style="endArrow=none;html=1;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="44" target="35">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="-160.02999999999997" y="350.0000000000002" as="sourcePoint"/>
+                        <mxPoint x="110.00448275862095" y="390.0000000000002" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="-270" y="425"/>
+                            <mxPoint x="-270" y="425"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="69" value="1" style="edgeLabel;resizable=0;html=1;align=left;verticalAlign=bottom;" connectable="0" vertex="1" parent="68">
+                    <mxGeometry x="-1" relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="70" value="1..*" style="edgeLabel;resizable=0;html=1;align=right;verticalAlign=bottom;" connectable="0" vertex="1" parent="68">
+                    <mxGeometry x="1" relative="1" as="geometry">
+                        <mxPoint x="-30" y="-10" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="71" value="Mają &amp;lt;-" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="68">
+                    <mxGeometry x="-0.0376" y="2" relative="1" as="geometry">
+                        <mxPoint x="-9" y="-8" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="74" value="" style="endArrow=none;html=1;edgeStyle=orthogonalEdgeStyle;exitX=0.403;exitY=0.026;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" source="41" target="35">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="-430" y="435.0344827586207" as="sourcePoint"/>
+                        <mxPoint x="-230" y="435.0344827586207" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="-24" y="508"/>
+                            <mxPoint x="-160" y="508"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="75" value="0..*" style="edgeLabel;resizable=0;html=1;align=left;verticalAlign=bottom;" connectable="0" vertex="1" parent="74">
+                    <mxGeometry x="-1" relative="1" as="geometry">
+                        <mxPoint x="14" y="-3" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="77" value="Mają do przeprowadzenia -&amp;gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="74">
+                    <mxGeometry x="-0.0376" y="2" relative="1" as="geometry">
+                        <mxPoint x="-53" y="20" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="78" value="1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="74">
+                    <mxGeometry x="0.9277" y="-1" relative="1" as="geometry">
+                        <mxPoint x="9" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="83" value="" style="endArrow=none;html=1;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="35" target="2">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="-410" y="455.0344827586207" as="sourcePoint"/>
+                        <mxPoint x="-210" y="455.0344827586207" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="-170" y="360"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="84" value="0..*" style="edgeLabel;resizable=0;html=1;align=left;verticalAlign=bottom;" connectable="0" vertex="1" parent="83">
+                    <mxGeometry x="-1" relative="1" as="geometry">
+                        <mxPoint x="20" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="85" value="0..*" style="edgeLabel;resizable=0;html=1;align=right;verticalAlign=bottom;" connectable="0" vertex="1" parent="83">
+                    <mxGeometry x="1" relative="1" as="geometry">
+                        <mxPoint x="-30" y="-10" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="86" value="Mogą brać udział w &amp;lt;-" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="83">
+                    <mxGeometry x="-0.0376" y="2" relative="1" as="geometry">
+                        <mxPoint x="-9" y="-8" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
