@@ -1,0 +1,13 @@
+body {
+    background-color:seagreen ;
+    font-family:'Courier New', Courier, monospace;
+}
+h1 {
+    color: rgb(10, 231, 9);
+    text-align: center;
+}
+p {
+    color: darkorange;
+    border: 8px solid green;
+    padding: 30px;
+}
