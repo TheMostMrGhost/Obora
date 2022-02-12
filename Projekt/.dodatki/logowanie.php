@@ -13,8 +13,9 @@
             echo $e['message'];
         }
         else {
-            //header("Location: ./Main.html");
-            //exit;
+            $_SESSION['CONNECTION'] = $conn;
+            header("Location: ./Main.html");
+            exit;
 
             $stm = oci_parse($conn,"SELECT * FROM USERS");
             oci_execute($stm, OCI_NO_AUTO_COMMIT);
