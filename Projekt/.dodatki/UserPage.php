@@ -76,14 +76,26 @@
 
             <form action="
                 <?php
-                    $del_f = "DELETE FROM ZNAJOMI WHERE (GRACZ1 =".$user_id." AND gracz2 = "
+                    
+                    $check = "SELECT * FROM ZNAJOMI WHERE (GRACZ1 =".$user_id." AND gracz2 = "
                     .$_POST['friend_to_del'].") OR (GRACZ2 = "
                     .$user_id." AND GRACZ1 = ".$_POST['friend_to_del'].")";
 
-                    $del_stmt = oci_parse($conn, $del_f);
-                    oci_execute($del_stmt, OCI_NO_AUTO_COMMIT);
-                    oci_commit($conn);
-                    echo $_POST['friend_to_del'];
+                    $check_stmt = oci_parse($conn, $check);
+                    oci_execute($check_stmt, OCI_NO_AUTO_COMMIT);
+                    oci_fetch_array($check_stmt, OCI_BOTH);
+
+                    if (oci_num_rows($check_stmt) > 0) {
+
+                        $del_f = "DELETE FROM ZNAJOMI WHERE (GRACZ1 =".$user_id." AND gracz2 = "
+                        .$_POST['friend_to_del'].") OR (GRACZ2 = "
+                        .$user_id." AND GRACZ1 = ".$_POST['friend_to_del'].")";
+
+                        $del_stmt = oci_parse($conn, $del_f);
+                        oci_execute($del_stmt, OCI_NO_AUTO_COMMIT);
+                        oci_commit($conn);
+                        echo $_POST['friend_to_del'];
+                    }
                 ?>" method = 'post'>
                 <input type="number" name = "friend_to_del">
                 <input type="submit" value = "Usuń">
