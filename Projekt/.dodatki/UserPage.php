@@ -183,7 +183,15 @@
                     <?php
                         $rank_game = $_SESSION['rank_game'];
                         $rank = "SELECT NICK, LICZBA_PUNKTOW FROM KONTO JOIN PUNKTY ON id = id_gracza 
-                        WHERE GRA = '$rank_game' ORDER BY LICZBA_PUNKTOW DESC";
+                        WHERE GRA = '$rank_game'" ;
+
+                        if ($_SESSION['region'] != 'NULL') {
+                            $rank .= " AND REGION = "."'".$_SESSION['region']."'"." ";
+                        }
+                        
+                        $rank .= "ORDER BY LICZBA_PUNKTOW DESC";
+
+
                         $rank_stmt = oci_parse($conn, $rank);
                         oci_execute($rank_stmt, OCI_NO_AUTO_COMMIT);
 
