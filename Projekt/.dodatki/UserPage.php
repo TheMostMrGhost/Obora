@@ -76,28 +76,35 @@
 
             <form action="
                 <?php
-                    
-                    $check = "SELECT * FROM ZNAJOMI WHERE (GRACZ1 =".$user_id." AND gracz2 = "
-                    .$_POST['friend_to_del'].") OR (GRACZ2 = "
-                    .$user_id." AND GRACZ1 = ".$_POST['friend_to_del'].")";
+                    $find = "SELECT ID FROM KONTO WHERE NICK = '".$_POST['friend_to_del']."'";
+                    $find_id = oci_parse($conn, $find);
+                    oci_execute($find_id, OCI_NO_AUTO_COMMIT);
+                    $row = oci_fetch_array($find_id, OCI_BOTH);
 
-                    $check_stmt = oci_parse($conn, $check);
-                    oci_execute($check_stmt, OCI_NO_AUTO_COMMIT);
-                    oci_fetch_array($check_stmt, OCI_BOTH);
+                    if (oci_num_rows($find_id) > 0) {
 
-                    if (oci_num_rows($check_stmt) > 0) {
+                        $check = "SELECT * FROM ZNAJOMI WHERE (GRACZ1 =".$user_id." AND gracz2 = "
+                        .$row['ID'].") OR (GRACZ2 = "
+                        .$user_id." AND GRACZ1 = ".$row['ID'].")";
 
-                        $del_f = "DELETE FROM ZNAJOMI WHERE (GRACZ1 =".$user_id." AND gracz2 = "
-                        .$_POST['friend_to_del'].") OR (GRACZ2 = "
-                        .$user_id." AND GRACZ1 = ".$_POST['friend_to_del'].")";
+                        $check_stmt = oci_parse($conn, $check);
+                        oci_execute($check_stmt, OCI_NO_AUTO_COMMIT);
+                        oci_fetch_array($check_stmt, OCI_BOTH);
 
-                        $del_stmt = oci_parse($conn, $del_f);
-                        oci_execute($del_stmt, OCI_NO_AUTO_COMMIT);
-                        oci_commit($conn);
-                        echo $_POST['friend_to_del'];
+                        if (oci_num_rows($check_stmt) > 0) {
+
+                            $del_f = "DELETE FROM ZNAJOMI WHERE (GRACZ1 =".$user_id." AND gracz2 = "
+                            .$row['ID'].") OR (GRACZ2 = "
+                            .$user_id." AND GRACZ1 = ".$row['ID'].")";
+
+                            $del_stmt = oci_parse($conn, $del_f);
+                            oci_execute($del_stmt, OCI_NO_AUTO_COMMIT);
+                            oci_commit($conn);
+                            //echo $_POST['friend_to_del'];
+                        }
                     }
                 ?>" method = 'post'>
-                <input type="number" name = "friend_to_del">
+                <input type="text" name = "friend_to_del">
                 <input type="submit" value = "Usuń">
             </form>
 
@@ -186,6 +193,7 @@
                         $gm_stmt = oci_parse($conn, $games);
                         oci_execute($gm_stmt, OCI_NO_AUTO_COMMIT);
 
+                        echo $_SESSION['temp'];
                         // Wyświetlanie listy znajomych
                         while (($row = oci_fetch_array($gm_stmt, OCI_BOTH))) {
                             echo $row['NAZWA']."<br><br>";
@@ -213,12 +221,12 @@
                         // Wyświetlanie listy znajomych
                         while (($row = oci_fetch_array($fl_stm, OCI_BOTH))) {
                             echo $row['NICK'];
-                            echo "  "."<form action = ";
+                            //echo "  "."<form action = ";
 
 
-                            echo ">";
-                            echo "<input type=\"submit\" value = \"Usuń\">";
-                            echo "</form>";
+                            //echo ">";
+                            //echo "<input type=\"submit\" value = \"Usuń\">";
+                            //echo "</form>";
                             echo "<br><br>";
                         }
                     ?>
