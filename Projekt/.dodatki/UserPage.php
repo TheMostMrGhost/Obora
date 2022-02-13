@@ -57,7 +57,39 @@
         
         <table width="1800" align = "center">
             <th>Graj</th>
-            <th>Znajomi</th>
+            <th>
+                Znajomi
+                <form action="
+                    <?php
+
+                        // TODO wyszukiwanie id
+                        
+                        $add_text = "INSERT INTO ZNAJOMI VALUES (".$user_id.",".$_POST['Friend_id'].")"; 
+                        $add_stmt = oci_parse($conn, $add_text);
+                        oci_execute($add_stmt, OCI_NO_AUTO_COMMIT);
+                        oci_commit($conn);
+                    ?>
+                " method = "post">
+                <input type="text" name = "Friend_id">
+                <input type="submit" value = "Dodaj">
+            </form>
+
+            <form action="
+                <?php
+                    $del_f = "DELETE FROM ZNAJOMI WHERE (GRACZ1 =".$user_id." AND gracz2 = "
+                    .$_POST['friend_to_del'].") OR (GRACZ2 = "
+                    .$user_id." AND GRACZ1 = ".$_POST['friend_to_del'].")";
+
+                    $del_stmt = oci_parse($conn, $del_f);
+                    oci_execute($del_stmt, OCI_NO_AUTO_COMMIT);
+                    oci_commit($conn);
+                    echo $_POST['friend_to_del'];
+                ?>" method = 'post'>
+                <input type="number" name = "friend_to_del">
+                <input type="submit" value = "Usuń">
+            </form>
+
+            </th>
             <th>
                 Najlepsi gracze
                 <table>
@@ -102,7 +134,7 @@
                                     echo " selected = \"selected\"";
                                 }
 
-                                echo ">"."NULL"."</option>";
+                                echo ">"."BRAK"."</option>";
 
                                 while (($row = oci_fetch_array($reg_filter, OCI_BOTH))) {
                                     echo "<option value=".$row['REGION'];
@@ -149,12 +181,13 @@
                     ?>
                 </td>
                 <td 
-                    width="140" 
+                    width="500" 
                     valign = "top" 
                     style=
                         "font-size: 25pt;
                         color: red; 
                         "
+                    align = center
                     >
 
                     <?php
@@ -167,9 +200,26 @@
 
                         // Wyświetlanie listy znajomych
                         while (($row = oci_fetch_array($fl_stm, OCI_BOTH))) {
-                            echo $row['NICK']."<br><br>";
+                            echo $row['NICK'];
+                            echo "  "."<form action = ";
+
+
+                            echo ">";
+                            echo "<input type=\"submit\" value = \"Usuń\">";
+                            echo "</form>";
+                            echo "<br><br>";
                         }
                     ?>
+                    
+                   <!-- <form action = "<?php
+                        //$del_f = "DELETE FROM ZNAJOMI WHERE GRACZ1 =".$user_id." AND gracz2 = ".$_POST['friend_to_del'];
+                        //$del_f .= " OR GRACZ2 = ".$user_id." AND GRACZ1 = ".$_POST['friend_to_del'];
+                        //$del_stmt = oci_parse($conn, $del_f);
+                        //oci_execute($del_stmt, OCI_NO_AUTO_COMMIT);
+                        //oci_commit($conn);
+                    //?>"> -->
+                    </form>
+
                 </td>
                 <td
                     valign = "top" 
