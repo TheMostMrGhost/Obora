@@ -23,15 +23,49 @@
         $_SESSION['region'] = 'NULL';
     }
 ?>
+<!-- <?php
+    // Definicje funkcji
+    function add_game($me, $enemy, $winner, $game, $game_rec, $id) {
+
+        $me = $user_id; 
+        $enemy = $_POST['przeciwnik']; 
+        $winner = $_POST['zwyc']; 
+        $game = $_POST['gra']; 
+        $game_rec = $_POST['przebieg']; 
+        $id = $_POST['id'];
+
+        $game_text = "INSERT INTO ROZGRYWKI (ID_ROZGRYWKI, GRACZ1, GRACZ2, ID_ZWYCIEZCY, GRA, PRZEBIEG_PARTII) ".
+        "VALUES (".$id.",$me,".$enemy.",".$winner.",'".$game."','".$game_rec."')";
+
+        $game_stmt = oci_parse($conn, $game_text);
+        oci_execute($game_stmt, OCI_NO_AUTO_COMMIT);
+
+        $loser = $enemy;
+
+        if ($winner == $loser) {
+            $loser = $user_id;
+        }
+
+        $pkt_upgrade_winner = "UPDATE PUNKTY SET LICZBA_PUNKTOW = LICZBA_PUNKTOW + $def_pkt_to_add WHERE ID_GRACZA = $winner AND GRA = '$game'";
+        $pkt_upgrade_loser = "UPDATE PUNKTY SET LICZBA_PUNKTOW = LICZBA_PUNKTOW + $def_pkt_to_lose WHERE ID_GRACZA = $loser AND GRA = '$game'";
+
+        $winner_stmt = oci_parse($conn, $pkt_upgrade_winner);
+        $loser_stmt = oci_parse($conn, $pkt_upgrade_loser);
+        oci_execute($winner_stmt, OCI_NO_AUTO_COMMIT);
+        oci_execute($loser_stmt, OCI_NO_AUTO_COMMIT);
+
+        oci_commit($conn);
+    }
+?> -->
 <!DOCTYPE html>
 <html lang="pl">
 <meta charset="utf-8">
     <head>
-        <title>UserPage</title>
+        <title>GAME PAGE</title>
         <link rel="stylesheet" href="Style.css">
         <?php
             // TODO skasować to 
-            echo "<h1> Witaj ".$_SESSION['LOGINDB'].'! [<a href="wyloguj.php">Wyloguj</a>]</h1>';
+            echo "<h1> Panel gry gracza  ".$_SESSION['LOGINDB'].' [<a href="UserPage.php">Wróć</a>]</h1>';
         ?>
         <style type='text/css'>
             td {
@@ -72,25 +106,37 @@
 
         <form action="
             <?php
-                $game_text = "INSERT INTO ROZGRYWKI (ID_ROZGRYWKI, GRACZ1, GRACZ2, ID_ZWYCIEZCY, GRA, PRZEBIEG_PARTII) ".
-                "VALUES (".$_POST['id'].",$user_id,".$_POST['przeciwnik'].",".$_POST['zwyc'].",'".$_POST['gra']."','".$_POST['przebieg']."')";
-                $game_stmt = oci_parse($conn, $game_text);
-                oci_execute($game_stmt, OCI_NO_AUTO_COMMIT);
+                //add_game($me, $enemy, $winner, $game, $game_rec, $id);
+                //add_game($user_id, $_POST['przeciwnik'], $_POST['zwyc'], $_POST['gra'], $_POST['przebieg'], $_POST['id']);
+                $is_ok = true;
 
-                $loser = $_POST['przeciwnik'];
-
-                if ($_POST['zwyciezca'] == $loser) {
-                    $loser = $user_id;
+                if ($user_id == $_POST['przeciwnik'] or ($_POST['zwyc'] != $user_id and $_POST['zwyc']!= $_POST['przeciwnik'])) {
+                    $is_ok = false;
                 }
 
-                $pkt_upgrade_winner = "UPDATE PUNKTY SET LICZBA_PUNKTOW = LICZBA_PUNKTOW + $def_pkt_to_add WHERE ID_GRACZA = ".$_POST['zwyc']." AND GRA = '".$_POST['gra']."'";
-                $pkt_upgrade_loser = "UPDATE PUNKTY SET LICZBA_PUNKTOW = LICZBA_PUNKTOW + $def_pkt_to_lose WHERE ID_GRACZA = $loser"." AND GRA = '".$_POST['gra']."'";
-                $winner_stmt = oci_parse($conn, $pkt_upgrade_winner);
-                $loser_stmt = oci_parse($conn, $pkt_upgrade_loser);
-                oci_execute($winner_stmt, OCI_NO_AUTO_COMMIT);
-                oci_execute($loser_stmt, OCI_NO_AUTO_COMMIT);
+                if ($is_ok) { 
+                    $game_text = "INSERT INTO ROZGRYWKI (ID_ROZGRYWKI, GRACZ1, GRACZ2, ID_ZWYCIEZCY, GRA, PRZEBIEG_PARTII) ".
+                    "VALUES (".$_POST['id'].",$user_id,".$_POST['przeciwnik'].",".$_POST['zwyc'].",'".$_POST['gra']."','".$_POST['przebieg']."')";
 
-                oci_commit($conn);
+                    $game_stmt = oci_parse($conn, $game_text);
+                    oci_execute($game_stmt, OCI_NO_AUTO_COMMIT);
+
+                    $loser = $_POST['przeciwnik'];
+
+                    if ($_POST['zwyciezca'] == $loser) {
+                        $loser = $user_id;
+                    }
+
+                    $pkt_upgrade_winner = "UPDATE PUNKTY SET LICZBA_PUNKTOW = LICZBA_PUNKTOW + $def_pkt_to_add WHERE ID_GRACZA = ".$_POST['zwyc']." AND GRA = '".$_POST['gra']."'";
+                    $pkt_upgrade_loser = "UPDATE PUNKTY SET LICZBA_PUNKTOW = LICZBA_PUNKTOW + $def_pkt_to_lose WHERE ID_GRACZA = $loser"." AND GRA = '".$_POST['gra']."'";
+
+                    $winner_stmt = oci_parse($conn, $pkt_upgrade_winner);
+                    $loser_stmt = oci_parse($conn, $pkt_upgrade_loser);
+                    oci_execute($winner_stmt, OCI_NO_AUTO_COMMIT);
+                    oci_execute($loser_stmt, OCI_NO_AUTO_COMMIT);
+
+                    oci_commit($conn);
+                }
             ?>
         " method = "post">
             <!-- FIXME TODO usunąć id-->
