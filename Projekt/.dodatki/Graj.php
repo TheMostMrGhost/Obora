@@ -3,6 +3,10 @@
     $username = $_SESSION['LOGINDB'];
     $user_id = $_SESSION['USER_ID'];
 
+    // TODO
+    $def_pkt_to_add = 50;
+    $def_pkt_to_lose = -30;
+
     $conn = oci_pconnect($_SESSION['LOGIN'], $_SESSION['PASSWORD'], "//labora.mimuw.edu.pl/LABS");
 
     if (!$conn) {
@@ -68,12 +72,24 @@
 
         <form action="
             <?php
-                //$game_text = "INSERT INTO ROZGRYWKI (ID_ROZGRYWKI, GRACZ1, GRACZ2, GRACZ3, GRACZ4, ID_ZWYCIEZCY, GRA, PRZEBIEG_PARTII) VALUES (9, 5, 8, NULL, NULL, 5, 'SZACHY', 'NIC')";
                 $game_text = "INSERT INTO ROZGRYWKI (ID_ROZGRYWKI, GRACZ1, GRACZ2, ID_ZWYCIEZCY, GRA, PRZEBIEG_PARTII) ".
                 "VALUES (".$_POST['id'].",$user_id,".$_POST['przeciwnik'].",".$_POST['zwyc'].",'".$_POST['gra']."','".$_POST['przebieg']."')";
                 $game_stmt = oci_parse($conn, $game_text);
-                //echo $_POST['przebieg'];
                 oci_execute($game_stmt, OCI_NO_AUTO_COMMIT);
+
+                $loser = $_POST['przeciwnik'];
+
+                if ($_POST['zwyciezca'] == $loser) {
+                    $loser = $user_id;
+                }
+
+                $pkt_upgrade_winner = "UPDATE PUNKTY SET LICZBA_PUNKTOW = LICZBA_PUNKTOW + $def_pkt_to_add WHERE ID_GRACZA = ".$_POST['zwyc']." AND GRA = '".$_POST['gra']."'";
+                $pkt_upgrade_loser = "UPDATE PUNKTY SET LICZBA_PUNKTOW = LICZBA_PUNKTOW + $def_pkt_to_lose WHERE ID_GRACZA = $loser"." AND GRA = '".$_POST['gra']."'";
+                $winner_stmt = oci_parse($conn, $pkt_upgrade_winner);
+                $loser_stmt = oci_parse($conn, $pkt_upgrade_loser);
+                oci_execute($winner_stmt, OCI_NO_AUTO_COMMIT);
+                oci_execute($loser_stmt, OCI_NO_AUTO_COMMIT);
+
                 oci_commit($conn);
             ?>
         " method = "post">
