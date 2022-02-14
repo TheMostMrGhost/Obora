@@ -31,24 +31,23 @@
                 odpowiednia
         </pre>
         Nie masz jeszcze konta? <br> 
-        Zarejestruj się!
-       <form action="rejestracja.php" method="post">
-            <input list="konto" name="konto" id="konto">
+       <form action="rejestracja.php" method="post" >
+            <input list="konto" name="TypKonta" id="TypKonta" >
             <datalist id="konto">
               <option value="Zwykłe">
               <option value="Profesjonalne">
               <option value="Drużynowe">
             </datalist>
             <br>
-            Region: <input type="text" name="Region"> <br>
-            Email: <input type="text" name="Email"> <br>
+            <!-- TODO opcje dodawania różnych rodzajów kont -->
             Login: <input type="text" name="Log"> <br>
             Hasło: <input type="password" name="Pass"> <br>
             Powtórz hasło: <input type="password" name="Pass2"> <br>
             <input type="submit" name="Zarejestruj się" value="Zarejestruj się"> 
         </form>
 
+        <!-- Co to robi? XD -->
         <form action="/action_page.php" method="get">
-          </form>
+        </form>
     </body>
 </html>

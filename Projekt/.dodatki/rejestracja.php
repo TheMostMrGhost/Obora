@@ -13,22 +13,21 @@
         $new_log = $_POST['Log'];
         $new_pass = $_POST['Pass'];
         $new_pass2 = $_POST['Pass2'];
+        $region = $_POST['Region'];
+        $email = $_POST['Email'];
 
         // Sprawddzenie czy taki login nie istnieje pryzpadkiem w bazie:
-        $check_dupl = "SELECT * FROM USERS WHERE LOGIN = '$new_log'";
-        $stm_check = oci_parse($conn, "SELECT * FROM USERS WHERE LOGIN = '$new_log'");
+        $check_dupl = "SELECT * FROM KONTO WHERE NICK = '$new_log'";
+        // TODO
+        $stm_check = oci_parse($conn, "SELECT * FROM KONTO WHERE NICK = '$new_log'");
         oci_execute($stm_check, OCI_NO_AUTO_COMMIT);
         oci_fetch_array($stm_check, OCI_BOTH);
 
         $is_ok = true;
-        //while (($row = oci_fetch_array($c, OCI_BOTH))) {
-            //// Use UPPERCASE column names for the associative array indices and numbers for the ordinary array indices.
-            //echo "hahaha";
-        //}
 
         // Sprawdzenie duplikatów
-        $check_dupl = "SELECT * FROM USERS WHERE LOGIN = '$new_log'";
-        $stm_check = oci_parse($conn, "SELECT * FROM USERS WHERE LOGIN = '$new_log'");
+        $check_dupl = "SELECT * FROM KONTO WHERE NICK = '$new_log'";
+        $stm_check = oci_parse($conn, "SELECT * FROM KONTO WHERE NICK = '$new_log'");
         oci_execute($stm_check, OCI_NO_AUTO_COMMIT);
         oci_fetch_array($stm_check, OCI_BOTH);
 
@@ -44,14 +43,14 @@
         }
 
         if ($is_ok) {
-            $test = "INSERT INTO USERS (login, password) VALUES ('$new_log', '$new_pass')";
+            $test = "INSERT INTO KONTO (region, nick, haslo, email) VALUES ('$region','$new_log', '$new_pass', '$email')";
             //$test = "INSERT INTO USERS (login, password) VALUES ('adam', 'adam')";
             //$ast = oci_parse($conn,"INSERT INTO USERS (login, password) VALUES ('nic', 'nic')");
             $ast = oci_parse($conn, $test);
             oci_execute($ast);
             oci_commit($conn);
 
-            $stm = oci_parse($conn,"SELECT * FROM USERS");
+            $stm = oci_parse($conn,"SELECT * FROM KONTO WHERE nick='$new_log' AND haslo=$new_pass");
             $res = oci_execute($stm);
             oci_fetch_array($stm, OCI_BOTH);
 

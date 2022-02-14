@@ -25,15 +25,11 @@
 <html lang="pl">
 <meta charset="utf-8">
     <head>
-        <title>UserPage</title>
-        <link rel="stylesheet" href="Style.css">
-        <?php
-            echo "<h1> Witaj ".$_SESSION['LOGINDB'].'! [<a href="wyloguj.php">Wyloguj</a>]</h1>';
-        ?>
         <style type='text/css'>
             td {
                 /* border-bottom: 2px solid #CDC1A7; */
                 padding: 1px;
+                font-size: 50px;
             }
             th {
                 font-family: "Trebuchet MS", Arial, Verdana;
@@ -49,28 +45,43 @@
                 font-size: 70px;
                 align : center;
             }
+            h1 {
+                font-size: 80px;
+            }
         </style>
+        <title>UserPage</title>
+        <link rel="stylesheet" href="Style.css">
+        <?php
+            echo "<h1 > Witaj ".$_SESSION['LOGINDB'].'! [<a href="wyloguj.php">Wyloguj</a>]</h1>';
+        ?>
+        
     </head>
     <body>
-        <p>Heheh czy to działa </p>
+        <p align = center>Panel główny gracza <?php echo $_SESSION['LOGINDB']; ?></p>
 
-        
         <table width="1800" align = "center">
-            <th>Graj</th>
+            <th>
+            <a href="Graj.php">Graj</a>
+
+            </th>
             <th>
                 Znajomi
                 <form action="
                     <?php
 
                         // TODO wyszukiwanie id
+                        $find = "SELECT ID FROM KONTO WHERE NICK = '".$_POST['Friend']."'";
+                        $find_id = oci_parse($conn, $find);
+                        oci_execute($find_id, OCI_NO_AUTO_COMMIT);
+                        $row = oci_fetch_array($find_id, OCI_BOTH);
                         
-                        $add_text = "INSERT INTO ZNAJOMI VALUES (".$user_id.",".$_POST['Friend_id'].")"; 
+                        $add_text = "INSERT INTO ZNAJOMI VALUES ($user_id,".$row['ID'].")"; 
                         $add_stmt = oci_parse($conn, $add_text);
                         oci_execute($add_stmt, OCI_NO_AUTO_COMMIT);
                         oci_commit($conn);
                     ?>
                 " method = "post">
-                <input type="text" name = "Friend_id">
+                <input type="text" name = "Friend">
                 <input type="submit" value = "Dodaj">
             </form>
 
@@ -193,12 +204,15 @@
                         $gm_stmt = oci_parse($conn, $games);
                         oci_execute($gm_stmt, OCI_NO_AUTO_COMMIT);
 
-                        echo $_SESSION['temp'];
-                        // Wyświetlanie listy znajomych
                         while (($row = oci_fetch_array($gm_stmt, OCI_BOTH))) {
-                            echo $row['NAZWA']."<br><br>";
+                            //echo "<a onclick='Graj.php?GRA=".$row['NAZWA'].">";
+                            echo $row['NAZWA'];
+                            echo "<br><br>";
                         }
+
                     ?>
+
+                    
                 </td>
                 <td 
                     width="500" 
@@ -267,7 +281,14 @@
 
                         // Wyświetlanie listy znajomych
                         while (($row = oci_fetch_array($rank_stmt, OCI_BOTH))) {
-                            echo "<tr><td align = left width = 400>".$row['NICK']."</td><td align = right width = 400>".$row['LICZBA_PUNKTOW']."</td></tr>";
+                            if ($row['NICK'] == $username) {
+                                echo "<tr><td align = left width = 400 style = \"color: orange;\">".$row['NICK'];
+                                echo "</td><td align = right width = 400>".$row['LICZBA_PUNKTOW']."</td></tr>";
+                            }
+                            else {
+                                echo "<tr><td align = left width = 400>".$row['NICK'];
+                                echo "</td><td align = right width = 400>".$row['LICZBA_PUNKTOW']."</td></tr>";
+                            }
                         }
                     ?>
                     </table>
