@@ -1,0 +1,40 @@
+DROP SEQUENCE idkonto_seq;
+DROP SEQUENCE idrozgrywka_seq;
+DROP SEQUENCE idturniej_seq;
+
+
+CREATE SEQUENCE idkonto_seq
+START WITH 1
+INCREMENT BY 1;
+
+CREATE SEQUENCE idrozgrywka_seq
+START WITH 1
+INCREMENT BY 1;
+
+CREATE SEQUENCE idturniej_seq
+START WITH 1
+INCREMENT BY 1;
+
+CREATE OR REPLACE TRIGGER idkonto_trigger
+BEFORE INSERT ON KONTO
+FOR EACH ROW
+BEGIN
+  SELECT idkonto_seq.nextval INTO :NEW.id FROM dual;
+END;
+/
+
+CREATE OR REPLACE TRIGGER idrozgrywka_trigger
+BEFORE INSERT ON ROZGRYWKI
+FOR EACH ROW
+BEGIN
+  SELECT idrozgrywka_seq.nextval INTO :NEW.id_rozgrywki FROM dual;
+END;
+/
+
+CREATE OR REPLACE TRIGGER idturniej_trigger
+BEFORE INSERT ON TURNIEJ
+FOR EACH ROW
+BEGIN
+  SELECT idturniej_seq.nextval INTO :NEW.id_turnieju FROM dual;
+END;
+/

@@ -50,7 +50,7 @@
             }
         </style>
         <title>UserPage</title>
-        <link rel="stylesheet" href="Style.css">
+        <link rel="stylesheet" href="Style.css" type="text/css">
         <?php
             echo "<h1 > Witaj ".$_SESSION['LOGINDB'].'! [<a href="wyloguj.php">Wyloguj</a>]</h1>';
         ?>
@@ -59,6 +59,48 @@
     <body>
         <p align = center>Panel główny gracza <?php echo $_SESSION['LOGINDB']; ?></p>
 
+        <table width = 1200>
+            <tr><td >Statystyki we WSZYSTKICH grach:</td></tr>
+            <tr>
+                <td>Łączna liczba wyganych:</td>
+                <td><?php 
+                    $tot_win = "SELECT count(*) WIN FROM ROZGRYWKI WHERE ID_ZWYCIEZCY = $user_id";
+                    $tot_win_stmt = oci_parse($conn, $tot_win);
+                    oci_execute($tot_win_stmt, OCI_NO_AUTO_COMMIT);
+                    $row = oci_fetch_array($tot_win_stmt, OCI_BOTH);
+                    $wins = $row['WIN'];
+                    echo $wins;
+
+                ?></td>
+            </tr>
+            <tr>
+                <td>Łączna liczba przegranych:</td>
+                <td><?php 
+                    $tot_lost = "SELECT count(*) LOST FROM ROZGRYWKI WHERE ID_ZWYCIEZCY != $user_id AND (GRACZ1 = $user_id OR GRACZ2 = $user_id)";
+                    $tot_lost_stmt = oci_parse($conn, $tot_lost);
+                    oci_execute($tot_lost_stmt, OCI_NO_AUTO_COMMIT);
+                    $row = oci_fetch_array($tot_lost_stmt, OCI_BOTH);
+
+                    $loses = $row['LOST'];
+                    echo $loses;
+
+                ?></td>
+            </tr>
+            <tr>
+                <td>Win ratio:</td>
+                <td><?php 
+                    echo round($wins / ( $wins + $loses), 2) * 100;
+                    echo " %";
+                ?></td>
+                <td>
+                       
+                <form action="Download.php" method = "post">
+                    <input type="submit">
+                </form>
+                </td>
+            </tr>
+            <tr><td><a href="History.php" align = center>Historia gier</a></td></tr>
+        </table>
         <table width="1800" align = "center">
             <th>
             <a href="Graj.php">Graj</a>
@@ -134,20 +176,20 @@
                             method="post">
 
                             <?php
-                                $poss_games = "SELECT DISTINCT GRA FROM PUNKTY";
+                                $poss_games = "SELECT NAZWA FROM GRA";
                                 $avl_games = oci_parse($conn, $poss_games);
                                 oci_execute($avl_games, OCI_NO_AUTO_COMMIT);
 
                                 echo "<select id=\"gra_rank\" name=\"gra_rank\">";
 
                                 while (($row = oci_fetch_array($avl_games, OCI_BOTH))) {
-                                    echo "<option value=".$row['GRA'];
+                                    echo "<option value=".$row['NAZWA'];
 
-                                    if ($_SESSION['rank_game'] == $row['GRA']) {
+                                    if ($_SESSION['rank_game'] == $row['NAZWA']) {
                                         echo " selected = \"selected\"";
                                     }
 
-                                    echo ">".$row['GRA']."</option>";
+                                    echo ">".$row['NAZWA']."</option>";
                                 }
 
                                 echo "</select>";
@@ -205,14 +247,11 @@
                         oci_execute($gm_stmt, OCI_NO_AUTO_COMMIT);
 
                         while (($row = oci_fetch_array($gm_stmt, OCI_BOTH))) {
-                            //echo "<a onclick='Graj.php?GRA=".$row['NAZWA'].">";
                             echo $row['NAZWA'];
                             echo "<br><br>";
                         }
 
                     ?>
-
-                    
                 </td>
                 <td 
                     width="500" 
@@ -235,23 +274,9 @@
                         // Wyświetlanie listy znajomych
                         while (($row = oci_fetch_array($fl_stm, OCI_BOTH))) {
                             echo $row['NICK'];
-                            //echo "  "."<form action = ";
-
-
-                            //echo ">";
-                            //echo "<input type=\"submit\" value = \"Usuń\">";
-                            //echo "</form>";
                             echo "<br><br>";
                         }
                     ?>
-                    
-                   <!-- <form action = "<?php
-                        //$del_f = "DELETE FROM ZNAJOMI WHERE GRACZ1 =".$user_id." AND gracz2 = ".$_POST['friend_to_del'];
-                        //$del_f .= " OR GRACZ2 = ".$user_id." AND GRACZ1 = ".$_POST['friend_to_del'];
-                        //$del_stmt = oci_parse($conn, $del_f);
-                        //oci_execute($del_stmt, OCI_NO_AUTO_COMMIT);
-                        //oci_commit($conn);
-                    //?>"> -->
                     </form>
 
                 </td>

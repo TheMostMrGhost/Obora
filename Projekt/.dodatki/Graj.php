@@ -116,7 +116,7 @@
 
                 if ($is_ok) { 
                     $game_text = "INSERT INTO ROZGRYWKI (ID_ROZGRYWKI, GRACZ1, GRACZ2, ID_ZWYCIEZCY, GRA, PRZEBIEG_PARTII) ".
-                    "VALUES (".$_POST['id'].",$user_id,".$_POST['przeciwnik'].",".$_POST['zwyc'].",'".$_POST['gra']."','".$_POST['przebieg']."')";
+                    "VALUES (0,$user_id,".$_POST['przeciwnik'].",".$_POST['zwyc'].",'".$_POST['gra']."','".$_POST['przebieg']."')";
 
                     $game_stmt = oci_parse($conn, $game_text);
                     oci_execute($game_stmt, OCI_NO_AUTO_COMMIT);
@@ -125,6 +125,32 @@
 
                     if ($_POST['zwyciezca'] == $loser) {
                         $loser = $user_id;
+                    }
+
+                    $check_if_i_exist = "SELECT * FROM PUNKTY WHERE  id_gracza = $id";
+                    $check_if_enemy_exist = "SELECT * FROM PUNKTY WHERE  id_gracza = ".$_POST['przeciwnik'];
+
+                    $i_exist_stmt = oci_parse($conn, $check_if_i_exist);
+                    $enemy_exists_stmt = oci_parse($conn, $check_if_enemy_exist);
+                    oci_execute($i_exist_stmt, OCI_NO_AUTO_COMMIT);
+                    oci_execute($enemy_exists_stmt, OCI_NO_AUTO_COMMIT);
+
+                    $row = oci_fetch_array($i_exist_stmt, OCI_BOTH);
+                
+                    // Jeśli nie istnieje jeszcze taki rekord to go dodajemy do bazy na punkty     
+                    if (!$row) {
+                        $add = "INSERT INTO PUNKTY VALUES ($user_id, '".$_POST['gra']."',0)";
+                        $add_stmt = oci_parse($conn, $add); 
+                        oci_execute($add_stmt, OCI_NO_AUTO_COMMIT);
+                    }
+
+                    $row = oci_fetch_array($enemy_exists_stmt, OCI_BOTH);
+                
+                    // Jeśli nie istnieje jeszcze taki rekord to go dodajemy do bazy na punkty     
+                    if (!$row) {
+                        $add = "INSERT INTO PUNKTY VALUES (".$_POST['przeciwnik'].", '".$_POST['gra']."',0)";
+                        $add_stmt = oci_parse($conn, $add); 
+                        oci_execute($add_stmt, OCI_NO_AUTO_COMMIT);
                     }
 
                     $pkt_upgrade_winner = "UPDATE PUNKTY SET LICZBA_PUNKTOW = LICZBA_PUNKTOW + $def_pkt_to_add WHERE ID_GRACZA = ".$_POST['zwyc']." AND GRA = '".$_POST['gra']."'";
@@ -142,51 +168,38 @@
             <!-- FIXME TODO usunąć id-->
             <table align = center >
                 <tr>
+                    <td>Wpisz przeciwnika:</td>
+                    <td><input type="number" name="przeciwnik"></td>
+                </tr>
+                <tr>
+                    <td>Wpisz zwycięzcę:</td>
+                    <td><input type="number" name="zwyc"><br></td>
+                </tr>
+                <tr>
+                    <td>Wpisz grę:</td>
                     <td>
-                        Wpisz idgry:
-                    </td>
-                    <td>
-                        <input type="number" name="id">
+                        <?php
+                            $games = "SELECT NAZWA FROM GRA";
+                            $gm_stmt = oci_parse($conn, $games);
+                            oci_execute($gm_stmt, OCI_NO_AUTO_COMMIT);
+
+                            echo "<select id=\"gra\" name=\"gra\">";
+                            echo "<option value=NULL>BRAK</option>";
+
+                            while (($row = oci_fetch_array($gm_stmt, OCI_BOTH))) {
+                                //echo "<a onclick='Graj.php?GRA=".$row['NAZWA'].">";
+                                echo "<option value = ".$row['NAZWA'].">".$row['NAZWA']."</option>";
+                            }
+
+                            echo "</select>";
+                        ?>
                     </td>
                 </tr>
                 <tr>
-                    <td>
-                        Wpisz przeciwnika:
-                    </td>
-                    <td>
-                        <input type="number" name="przeciwnik">
-                    </td>
+                    <td>Wpisz przebieg partii:</td>
+                    <td><input type="text" name="przebieg"></td>
                 </tr>
-                <tr>
-                    <td>
-                        Wpisz zwycięzcę:
-                    </td>
-                    <td>
-                        <input type="number" name="zwyc"><br>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Wpisz grę:
-                    </td>
-                    <td>
-                        <input type="text" name="gra">
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Wpisz przebieg partii:
-                    </td>
-                    <td>
-                        <input type="text" name="przebieg">
-                    </td>
-                </tr>
-                 
-                <tr>
-                    <td>
-                        <input type="submit" value="Dodaj">
-                    </td>
-                </tr> 
+                <tr><td><input type="submit" value="Dodaj"></td></tr> 
             </table>
 
         </form>

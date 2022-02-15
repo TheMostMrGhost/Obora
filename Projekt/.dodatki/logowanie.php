@@ -17,12 +17,12 @@
             header("Location: ./Main.html");
             exit;
 
-            $stm = oci_parse($conn,"SELECT * FROM USERS");
-            oci_execute($stm, OCI_NO_AUTO_COMMIT);
-            while (($row = oci_fetch_array($stm, OCI_BOTH))) {
-                // Use UPPERCASE column names for the associative array indices and numbers for the ordinary array indices.
-                echo "hahaha";
-            }
+            //$stm = oci_parse($conn,"SELECT * FROM USERS");
+            //oci_execute($stm, OCI_NO_AUTO_COMMIT);
+            //while (($row = oci_fetch_array($stm, OCI_BOTH))) {
+                //// Use UPPERCASE column names for the associative array indices and numbers for the ordinary array indices.
+                //echo "hahaha";
+            //}
             //$stmt = oci_parse($conn,"SELECT * FROM naukowiec WHERE promotor=1");
             //oci_execute($stmt, OCI_NO_AUTO_COMMIT);
 
@@ -32,21 +32,21 @@
             //}
 
 
-            if ($stm) {
-                if (oci_num_rows($stm) > 0) {
-                    header("Location: ./UserPage.html");
-                    exit;
-                }
-                else {
-                    echo "Pasy: ".$_SESSION['LOGINDB'];
-                    echo $_SESSION['PASSWORDDB'];
-                    echo oci_num_rows($stm);
-                    echo "Nie udało się zalogować, spróbuj ponownie";
-                }
-            }
-            else {
-                echo "Nie";
-            }
+            //if ($stm) {
+                //if (oci_num_rows($stm) > 0) {
+                    //header("Location: ./UserPage.html");
+                    //exit;
+                //}
+                //else {
+                    //echo "Pasy: ".$_SESSION['LOGINDB'];
+                    //echo $_SESSION['PASSWORDDB'];
+                    //echo oci_num_rows($stm);
+                    //echo "Nie udało się zalogować, spróbuj ponownie";
+                //}
+            //}
+            //else {
+                //echo "Nie";
+            //}
 
 
 
