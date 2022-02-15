@@ -62,31 +62,54 @@
     </head>
     <body>
         <!-- <p align = center>Panel główny gracza <?php echo $_SESSION['LOGINDB']; ?></p> -->
+        <table width = 100%>
         <form action="Download.php" method = "post">
             <!-- <?php
                 for ($i = 0; $i < 100 ; $i++) {
                     echo '<input type="submit" name="clicked['.$i.']" value="clicked" />';
                 }
             ?> -->
+            <tr><td>Gra przeciw:</td> <td>Zwycięzca:</td><td>Pobierz historię:</td></tr>
             <?php 
-                $wrog = "SELECT WROG FROM ( (SELECT GRACZ1 WROG FROM ROZGRYWKI WHERE GRACZ2 = 1) UNION ALL (SELECT GRACZ2 WROG FROM ROZGRYWKI WHERE GRACZ1 = 1))";
+                $wrog = "SELECT ID_ROZGRYWKI, NICK, PRZEBIEG_PARTII, ID_ZWYCIEZCY 
+                FROM ( 
+                    (SELECT ID_ROZGRYWKI, GRACZ1 AS WROG, PRZEBIEG_PARTII, ID_ZWYCIEZCY 
+                    FROM ROZGRYWKI WHERE GRACZ2 = $user_id) 
+                    UNION ALL 
+                    (SELECT ID_ROZGRYWKI, GRACZ2 AS WROG, PRZEBIEG_PARTII, ID_ZWYCIEZCY 
+                    FROM ROZGRYWKI WHERE GRACZ1 = $user_id)
+                    ) 
+                JOIN KONTO ON WROG = ID
+                ORDER BY ID_ROZGRYWKI";
                 $wrog_stmt = oci_parse($conn, $wrog);
                 oci_execute($wrog_stmt, OCI_NO_AUTO_COMMIT);
 
-                $hist = "SELECT PRZEBIEG_PARTII FROM ROZGRYWKI WHERE GRACZ1 = $user_id OR GRACZ2 = $user_id";
-                $hist_stmt = oci_parse($conn, $hist);
-                oci_execute($hist_stmt, OCI_NO_AUTO_COMMIT);
+                //$hist = "SELECT PRZEBIEG_PARTII FROM ROZGRYWKI WHERE GRACZ1 = $user_id OR GRACZ2 = $user_id";
+                //$hist_stmt = oci_parse($conn, $hist);
+                //oci_execute($hist_stmt, OCI_NO_AUTO_COMMIT);
 
-                $ii = 0;
-                $clicked = array();
-                while ( ($row = oci_fetch_array($hist_stmt)) ) {
-                    $clicked["$ii"] = "laskdfjasld"; 
+                
+                
+                while ( ($row = oci_fetch_array($wrog_stmt)) ) {
+                    echo "<tr><td>";
+                    echo $row['NICK'];
+                    echo "</td>";
+
+                    if ($row['ID_ZWYCIEZCY'] == $user_id) {
+                        echo "<td style = \"color : limegreen\">$username</td>";
+                    }
+                    else {
+                        echo "<td style = \"color : red\">".$row['NICK']."</td>";
+                    }
+
+                    echo "<td>";
                     echo '<input type="submit" name="clicked['.$row['PRZEBIEG_PARTII'].']" value="clicked" />';
-                    $ii++;
+                    echo "</td></tr>";
                 }
                 
             ?> 
         </form>
+    </table>
         
     </body>
 </html>
