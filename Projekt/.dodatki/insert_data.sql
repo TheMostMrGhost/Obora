@@ -71,21 +71,19 @@ INSERT INTO PUNKTY VALUES
 INSERT INTO TURNIEJ VALUES
     (1, 'DOZYNKI', 'SZACHY', TO_DATE('28/08/2022', 'DD/MM/YYYY'));
 
-INSERT INTO UCZESTNIK_TURNIEJU VALUES 
-    (1, 1, 1000001);
-INSERT INTO UCZESTNIK_TURNIEJU VALUES 
-    (2, 1, 73);    
-INSERT INTO UCZESTNIK_TURNIEJU VALUES 
-    (3, 1, 1234);
-INSERT INTO UCZESTNIK_TURNIEJU VALUES 
-    (5, 1, 123321);
+INSERT ALL 
+    INTO UCZESTNIK_TURNIEJU VALUES (1, 1, 1000001)
+    INTO UCZESTNIK_TURNIEJU VALUES (2, 1, 73)
+    INTO UCZESTNIK_TURNIEJU VALUES (3, 1, 1234) 
+    INTO UCZESTNIK_TURNIEJU VALUES (4, 1, 123321)
+SELECT 1 FROM DUAL;
 
 INSERT INTO HISTORIA_TURNIEJU VALUES
-    (1, 1, 2, NULL, NULL, 'BEZ LITOŚCI DLA BAB');
+    (1, 1, 2, NULL, NULL, 1,'BEZ LITOŚCI DLA BAB');
 INSERT INTO HISTORIA_TURNIEJU VALUES
-    (1, 3, 5, NULL, NULL, 'Bez ziomeczka morale spadają i bez większych trudności farmer sprzedaje mata w 24 ruchach');
+    (1, 3, 4, NULL, NULL, 3,'Bez ziomeczka morale spadają i bez większych trudności farmer sprzedaje mata w 24 ruchach');
 INSERT INTO HISTORIA_TURNIEJU VALUES
-    (1, 1, 5, NULL, NULL, 'Epicki pojedynek niemalże na najwyższym poziomie który do 25 ruchu przebiegał zgodnie ze słynną partią z 85 Karpova z Kasparovem jednak dzięki niesamowitej innowacji tucznik wyrywa farmerowi zwycięstwo z rąk');
+    (1, 1, 3, NULL, NULL, 3, 'Epicki pojedynek niemalże na najwyższym poziomie który do 25 ruchu przebiegał zgodnie ze słynną partią z 85 Karpova z Kasparovem jednak dzięki niesamowitej innowacji tucznik wyrywa farmerowi zwycięstwo z rąk');
 
 INSERT INTO GRY_NA_AKTUALNYM_POZIOMIE VALUES
     (1, 1, 5, NULL, NULL, 1);
