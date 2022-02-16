@@ -69,7 +69,7 @@
                     echo '<input type="submit" name="clicked['.$i.']" value="clicked" />';
                 }
             ?> -->
-            <tr><td>Gra przeciw:</td> <td>Zwycięzca:</td><td>Pobierz historię:</td></tr>
+            <tr><td>Gra przeciw:</td> <td>Zwycięzca:</td><td></td></tr>
             <?php 
                 $wrog = "SELECT ID_ROZGRYWKI, NICK, PRZEBIEG_PARTII, ID_ZWYCIEZCY 
                 FROM ( 
@@ -84,12 +84,6 @@
                 $wrog_stmt = oci_parse($conn, $wrog);
                 oci_execute($wrog_stmt, OCI_NO_AUTO_COMMIT);
 
-                //$hist = "SELECT PRZEBIEG_PARTII FROM ROZGRYWKI WHERE GRACZ1 = $user_id OR GRACZ2 = $user_id";
-                //$hist_stmt = oci_parse($conn, $hist);
-                //oci_execute($hist_stmt, OCI_NO_AUTO_COMMIT);
-
-                
-                
                 while ( ($row = oci_fetch_array($wrog_stmt)) ) {
                     echo "<tr><td>";
                     echo $row['NICK'];
@@ -102,8 +96,8 @@
                         echo "<td style = \"color : red\">".$row['NICK']."</td>";
                     }
 
-                    echo "<td>";
-                    echo '<input type="submit" name="clicked['.$row['PRZEBIEG_PARTII'].']" value="clicked" />';
+                    echo "<td align = center>";
+                    echo '<input type="submit" name="to_down['.$row['PRZEBIEG_PARTII'].']" value="Pobierz" />';
                     echo "</td></tr>";
                 }
                 
