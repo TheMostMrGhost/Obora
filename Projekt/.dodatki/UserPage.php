@@ -171,6 +171,7 @@
                             "<?php 
                                 $_SESSION['rank_game'] = $_POST['gra_rank'];
                                 $_SESSION['region'] = $_POST['region'];
+                                //echo $_POST['gra_rank'];
                                 echo $_SERVER['PHP_SELF']; 
                             ?>"  
                             method="post">
@@ -179,7 +180,6 @@
                                 $poss_games = "SELECT NAZWA FROM GRA";
                                 $avl_games = oci_parse($conn, $poss_games);
                                 oci_execute($avl_games, OCI_NO_AUTO_COMMIT);
-
                                 echo "<select id=\"gra_rank\" name=\"gra_rank\">";
 
                                 while (($row = oci_fetch_array($avl_games, OCI_BOTH))) {

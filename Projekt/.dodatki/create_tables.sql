@@ -58,7 +58,7 @@ CREATE TABLE TURNIEJ (
     id_turnieju NUMBER(8) PRIMARY KEY,
     nazwa VARCHAR(20) NOT NULL,
     gra VARCHAR(20) NOT NULL REFERENCES GRA,
-    data_przeprowadzenia DATE NOT NULL
+    data_przeprowadzenia DATE DEFAULT SYSDATE
 );
 
 CREATE TABLE UCZESTNIK_TURNIEJU (

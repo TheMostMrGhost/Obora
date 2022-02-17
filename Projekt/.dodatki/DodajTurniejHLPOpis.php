@@ -24,6 +24,10 @@
         echo "</form>";
     }
     else header("Location: ./DodajTurniejHLP.php");
+    
+    //echo $_SESSION['changed']; 
+    //echo $_SESSION['winner']; 
+    //echo $loser; 
     //if ($_SESSION['wins'][0] != -1 && !isset($_SESSION['comm'])) {// 
         //$_SESSION['comm'] = 1;
 
