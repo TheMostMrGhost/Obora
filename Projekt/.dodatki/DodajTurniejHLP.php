@@ -8,17 +8,42 @@
         echo $e['message'];
     }
 
-    $_SESSION['wins'][$_POST['changed']] = $_POST['winner']; 
-// Musimy zaktualizować dwa rekordy
-    if (intdiv($_POST['changed'], 2) * 2 == $_POST['changed']) {
-        $other_to_upd = $_POST['changed'] + 1; 
+    $loser = $_SESSION['wins'][$_SESSION['changed'] * 2 + 1];
+
+    //echo $loser;
+    //echo $_SESSION['winner'];
+    //echo $_SESSION['changed'];
+    //echo intdiv($_SESSION['changed'], 2);
+    //echo $_SESSION['wins'][0];
+
+
+    if ($loser == $_SESSION['winner']) {
+        $loser = $_SESSION['wins'][$_SESSION['changed'] * 2];
     }
-    else { 
-        $other_to_upd = $_POST['changed']; 
+    
+    if ($_SESSION['wins'][intdiv($_SESSION['changed'], 2)] == - 1 && $loser != -1) {
+        $_SESSION['wins'][$_SESSION['changed']] = $_SESSION['winner']; 
+        $_SESSION['to_ins'][$_SESSION['changed']] = "INSERT INTO HISTORIA_TURNIEJU VALUES (".$_SESSION['turniej_id'].",".
+        $_SESSION['winner'].",".$loser.", NULL, NULL,".$_SESSION['winner'].","."'".$_POST['description']."'".")";
+        //echo $_SESSION['to_ins'][$_SESSION['changed']];
+        //echo $_SESSION['changed'];
     }
-    $_SESSION['wins'][$_POST['changed']] = $_POST['winner']; 
-    $_SESSION['wins'][$other_to_upd] = $_POST['winner']; 
-    echo $_POST['winner'];
-    echo $_POST['changed'];
-    //header("Location: ./DodajTurniej.php");
+
+    if ($_SESSION['changed'] == 0) {
+        $_SESSION['wins'][0] = $_SESSION['winner']; 
+    }
+
+    if ($_SESSION['wins'][0] != -1 && !isset($_SESSION['comm'])) {// 
+        $_SESSION['comm'] = 1;
+
+        for ($ii = 1; $ii < 2 * $_SESSION['ile_graczy']; $ii++) { 
+            $ins = $_SESSION['to_ins'][$ii];
+            echo $ins;
+            
+            $insert = oci_parse($conn, $ins);
+            oci_execute($insert);
+        }
+        oci_commit($conn);
+    }
+    header("Location: ./DodajTurniej.php");
 ?>

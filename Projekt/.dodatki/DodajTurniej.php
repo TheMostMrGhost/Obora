@@ -5,8 +5,6 @@
         while ($x > 0) {
             $ii++;
             $x = intdiv($x, 2);
-            //echo $x."<br>";
-            //echo $ii."<br>";
         }
 
         return $ii;
@@ -48,13 +46,22 @@
         $ranking_table = "PUNKTY";
     }
 
+    if (!isset($_SESSION['ile_graczy']))
+        $_SESSION['ile_graczy'] = $_POST['ile_graczy'];
+
+    if (!isset($_SESSION['gra_rank']))
+        $_SESSION['gra_rank'] = $_POST['gra_rank'];
+
+    if (!isset($_SESSION['region'])) 
+        $_SESSION['region'] = $_POST['region'];
+
     $row_count = "SELECT DISTINCT COUNT(ID_GRACZA) ILE 
     FROM $ranking_table 
     JOIN KONTO ON ID_GRACZA = ID
-    WHERE GRA = '".$_POST['gra_rank']."'";
+    WHERE GRA = '".$_SESSION['gra_rank']."'";
 
     if ($_SESSION['region'] != 'NULL') {
-        $row_count .=" AND REGION = '".$_POST['region']."'";
+        $row_count .=" AND REGION = '".$_SESSION['region']."'";
     }
 
     $row_count_stmt = oci_parse($conn, $row_count);
@@ -64,7 +71,7 @@
     $count = $row['ILE'];
     $_SESSION['ILE'] = $count;
 
-    if ($count < $_POST['ile_graczy']) {
+    if ($count < $_SESSION['ile_graczy']) {
         $creation_possible = false;
     }
 
@@ -85,25 +92,26 @@
        
     </head>
     <body>
-        <p>Graj</p>
+        <!--<p>Graj</p>-->
        
         <?php
+
             if ($creation_possible) {
                     // TODO
                     $date = date('YYYY-MM-DD');
-                    $create_tornament = "INSERT INTO TURNIEJ VALUES (0,'".$_POST['nazwa']."','".$_POST['gra_rank']."',SYSDATE)";
+                    $create_tornament = "INSERT INTO TURNIEJ VALUES (0,'".$_SESSION['nazwa']."','".$_SESSION['gra_rank']."',SYSDATE)";
                     $create_tornament_stmt = oci_parse($conn, $create_tornament);
                     oci_execute($create_tornament_stmt, OCI_NO_AUTO_COMMIT);
                     
                     $players = "SELECT ID_GRACZA
                         FROM $ranking_table
-                        WHERE GRA = '".$_POST['gra_rank']."'"; 
+                        WHERE GRA = '".$_SESSION['gra_rank']."'"; 
 
                     if ($_SESSION['region'] != 'NULL') {
-                        $players .=" AND REGION = '".$_POST['region']."'";
+                        $players .=" AND REGION = '".$_SESSION['region']."'";
                     }
 
-                    $players .= " ORDER BY LICZBA_PUNKTOW DESC FETCH FIRST ".$_POST['ile_graczy']." ROWS ONLY";
+                    $players .= " ORDER BY LICZBA_PUNKTOW DESC FETCH FIRST ".$_SESSION['ile_graczy']." ROWS ONLY";
                         
                     $find_players = oci_parse($conn, $players);
 
@@ -112,20 +120,19 @@
                     oci_execute($last_added_row_stmt, OCI_NO_AUTO_COMMIT);
 
                     $temp = oci_fetch_array($last_added_row_stmt, OCI_BOTH);
-                    $turniej_id = $temp['ID'];
+                    $_SESSION['turniej_id'] = $temp['ID'];
 
                     oci_execute($find_players, OCI_NO_AUTO_COMMIT);
 
                     $ile = 2;
-                    // $ile = $_POST['ile'];  <- to jest na potencjalne rozszerzenie drabinki do większej liczby graczy
+                    // $ile = $_SESSION['ile'];  <- to jest na potencjalne rozszerzenie drabinki do większej liczby graczy
 
-                    for ($ii = 0; $ii < $_POST['ile_graczy'] / $ile; $ii++) { 
+                    for ($ii = 0; $ii < $_SESSION['ile_graczy'] / $ile; $ii++) { 
                         for ($jj = 0; $jj < $ile; $jj++) { 
                             $row = oci_fetch_array($find_players, OCI_BOTH);
-                            $to_ins = "INSERT INTO UCZESTNIK_TURNIEJU VALUES (".$row['ID_GRACZA'].",$turniej_id, 0)";
+                            $to_ins = "INSERT INTO UCZESTNIK_TURNIEJU VALUES (".$row['ID_GRACZA'].",\$_SESSION['turniej_id'], 0)";
                             $ins_stmt = oci_parse($conn, $to_ins);
                             oci_execute($ins_stmt, OCI_NO_AUTO_COMMIT);
-                            //echo $row['ID_GRACZA']."<br>";
                         }
                     }
 
@@ -136,70 +143,82 @@
                 }
 
                 // Prezentacja drabinki
-
-                // Tworzymy tabelę zwycięzców:
+                // Tworzymy tabelę zwycięzców
                 if ($creation_possible) {
+                    
                     if (!isset($_SESSION['wins'])) {
                         $_SESSION['wins'] = array();
+                        $_SESSION['to_ins'] = array();
                         
-                        for ($ii=0; $ii < 2 * $_POST['ile_graczy']; $ii++) { 
+                        for ($ii=0; $ii < 2 * $_SESSION['ile_graczy']; $ii++) { 
                             $_SESSION['wins'][$ii] = -1;
+                            $_SESSION['to_ins'][$ii] = "";
+                            //echo $_SESSION['to_ins'][$ii];
                         }
                     }
-
 
                 echo "<table width = 100%>";
                 echo "<tr align = center height = 150px>";
 
-                for ($ii=0; $ii < $_POST['ile_graczy']; $ii++) { 
+                for ($ii=0; $ii < $_SESSION['ile_graczy']; $ii++) { 
+                    $_SESSION['wins'][2 * $_SESSION['ile_graczy'] - 1 - $ii] = 2 * $_SESSION['ile_graczy'] - 1 - $ii;
+
                     echo "<td >"; 
-                    $_SESSION[2 * $_POST['ile_graczy'] - 1 - $ii] = 2 * $_POST['ile_graczy'] - 1 - $ii;
-                    echo $ii;
-                    //echo 2 * $_POST['ile_graczy'] - 1 - $ii;
+                    echo "<form action=\"./DodajTurniejHLPOpis.php\" method = \"post\">";
+                    echo "<input type=\"hidden\" name=\"winner\" value=".$_SESSION['wins'][$_SESSION['ile_graczy'] + $ii].">";
+                    echo "<input type=\"hidden\" name=\"changed\" value=".(intdiv($_SESSION['ile_graczy']  + $ii, 2)).">";
+                    echo "<input type=\"submit\" name=\"submit\" value=".$ii.
+                        " style = \"color:black;border:0px #000 solid;background-color:seagreen;font-size:30pt;\">";
+                    echo "</form>";
                     echo "</td>";
                 }
-
                 echo "</tr>";
 
 
-                for ($ii=binlog($_POST['ile_graczy']) - 1; $ii >= 0; $ii--) { 
+                for ($ii = binlog($_SESSION['ile_graczy']) - 1; $ii >= 0; $ii--) { 
 
                     echo "<tr align = center height = 150px>";
                     //echo power($ii + 3);
+                    //$jj = 0;
+                    //while ($jj < power($ii - 1)) {
                     for ($jj=0; $jj < power($ii); $jj++) { 
-                        $_POST['changed'] = power($ii) + $jj;
-                        echo "<td colspan = ".($_POST['ile_graczy'] / power($ii)).">"; 
-                        echo "|".(power($ii) + $jj)."|";
+                        echo "<td colspan = ".($_SESSION['ile_graczy'] / power($ii)).">"; 
                         // Chcemy, żeby w obu komórkach tabeli było to samo
-                        
-                    //echo "<form action=\"./DodajTurniejHLP.php\" method = \"post\">";
-                        //echo "<input type=\"hidden\" name=\"winner\" value=17>";
-                        //echo "<input type=\"hidden\" name=\"changed\" value=36>";
-                        //echo "<input type=\"submit\" name=\"submit\" value=1>";
-                    //echo "</form>";
+                        //if (power($ii) + $jj > 1) {
+                            echo "<table><tr>";
 
-                        //echo "<input type=\"hidden\" name=\"winner\" value=25>";
-                        //echo "<input type=\"hidden\" name=\"changed\" value=44>";
-                        //echo "<input type=\"submit\" name=\"submit\" value=2>";
+                            //if ($jj % 2 == 1) {
+                                //echo "<td>";
+                                //echo "test";
+                                //echo "</td>";
+                            //}
 
-                    echo "<form action=\"./DodajTurniejHLP.php\" method = \"post\">";
-                        echo "<input type=\"hidden\" name=\"winner\" value=".$_SESSION['wins'][2 * (power($ii) + $jj)].">";
-                        echo "<input type=\"hidden\" name=\"changed\" value=".(power($ii) + $jj).">";
-                        echo "<input type=\"submit\" name=\"submit\" value=1>";
-                    echo "</form>";
+                            echo "<td>";
 
-                    echo "<form action=\"./DodajTurniejHLP.php\" method = \"post\">";
-                        echo "<input type=\"hidden\" name=\"winner\" value=".$_SESSION['wins'][2 * (power($ii) + $jj) +1].">";
-                        echo "<input type=\"hidden\" name=\"changed\" value=".(power($ii) + $jj).">";
-                        echo "<input type=\"submit\"  name=\"submit\" value=5>";
-                    echo "</form>";
 
-                        if ($_SESSION['wins'][2* (power($ii) + $jj)] == -1) {
-                            echo "N";
-                        }
-                        else {
-                            echo $_SESSION['wins'][2 * (power($ii) + $jj)];
-                        }
+                            if ($_SESSION['wins'][(power($ii) + $jj)] != -1 ) {
+                                echo "<form action=\"./DodajTurniejHLPOpis.php\" method = \"post\">";
+                                echo "<input type=\"hidden\" name=\"winner\" value=".$_SESSION['wins'][(power($ii) + $jj)].">";
+                                echo "<input type=\"hidden\" name=\"changed\" value=".intdiv(power($ii) + $jj,2).">";
+
+                                if (power($ii) + $jj == 1 && $_SESSION['wins'][(power($ii) + $jj)] != -1) {
+                                    echo "<input type=\"submit\" name=\"submit\" value= ".$_SESSION['wins'][(power($ii) + $jj)]
+                                        ." style = \"color:orange;border:0px #000 solid;background-color:seagreen;font-size:30pt;\">";
+                                }
+                                else {
+                                    echo "<input type=\"submit\" name=\"submit\" value= ".$_SESSION['wins'][(power($ii) + $jj)]
+                                        ." style = \"color:black;border:0px #000 solid;background-color:seagreen;font-size:30pt;\">";
+                                }
+
+                                echo "</form>";
+                            }
+                            
+                            echo "</td>";
+                            echo "</tr></table>";
+                        //}
+                        //else if (power($ii) + $jj == 1 && $_SESSION['wins'][(power($ii) + $jj)] != -1 )  {
+                            //echo "<span style = \"color : orange;\">".$_SESSION['wins'][(power($ii) + $jj)]."</span>";
+                        //}
 
                         echo "</td>";
                     }
@@ -207,16 +226,9 @@
                 }
                 echo "</form>";
                 echo "</table>";
-
-
-
-
-
-
-
-
-
+            
             }
+            else echo "nic";
             ?>
     </body>
 </html>
