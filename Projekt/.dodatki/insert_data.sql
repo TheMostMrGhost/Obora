@@ -5,14 +5,14 @@ INSERT INTO KONTO_DRUZYNOWE VALUES
     (2, 'FARMERAMA');
 
 INSERT ALL 
-    INTO KONTO VALUES (1, 'EU', 'TUCZNIK', '1234', 'obora@email.com', NULL, 12345678901234567890)
-    INTO KONTO VALUES (2, 'EU', 'MOCNALOCHA69', 'TUCZNIK', 'locha@email.com', NULL, NULL)
-    INTO KONTO VALUES (3, 'EU', 'SWINIAK', 'chrum', 'idk@email.com', 1, NULL)
-    INTO KONTO VALUES (4, 'EU', 'PROSIAK', 'hrum', 'whatever@email.com', 1, NULL)
-    INTO KONTO VALUES (5, 'EU', 'FARMER', '1234', 'cebulix@email.com', 2, 12345678901234533330)
-    INTO KONTO VALUES (6, 'NA', 'ZIELARZ420', 'weed', '420@email.com', NULL, NULL)
-    INTO KONTO VALUES (1,'NA', 'GRUBAX', 'food', '42069@email.com', NULL, NULL)
-    INTO KONTO VALUES (8, 'ASIA', 'ghost', 'ghost', 'ghost@ghost.ghost', NULL, NULL)
+    INTO KONTO VALUES (1, 'EU', 'TUCZNIK', '1234', 'obora@email.com', 'Profesjonalne' ,12345678901234567890)
+    INTO KONTO VALUES (2, 'EU', 'MOCNALOCHA69', 'TUCZNIK', 'locha@email.com', 'Zwykle' , NULL)
+    INTO KONTO VALUES (3, 'EU', 'SWINIAK', 'chrum', 'idk@email.com', 'Zwykle' , NULL)
+    INTO KONTO VALUES (4, 'EU', 'PROSIAK', 'hrum', 'whatever@email.com', 'Zwykle' , NULL)
+    INTO KONTO VALUES (5, 'EU', 'FARMER', '1234', 'cebulix@email.com', 'Profesjonalne' , 12345678901234533330)
+    INTO KONTO VALUES (6, 'NA', 'ZIELARZ420', 'weed', '420@email.com', 'Zwykle' , NULL)
+    INTO KONTO VALUES (7,'NA', 'GRUBAX', 'food', '42069@email.com', 'Zwykle' , NULL)
+    INTO KONTO VALUES (8, 'ASIA', 'ghost', 'ghost', 'ghost@ghost.ghost', 'Zwykle' , NULL)
 SELECT 1 FROM DUAL;
 
 INSERT INTO ZNAJOMI VALUES (1, 2);
@@ -88,7 +88,5 @@ INSERT INTO HISTORIA_TURNIEJU VALUES
 INSERT INTO HISTORIA_TURNIEJU VALUES
     (1, 1, 3, NULL, NULL, 3, 'Epicki pojedynek niemalże na najwyższym poziomie który do 25 ruchu przebiegał zgodnie ze słynną partią z 85 Karpova z Kasparovem jednak dzięki niesamowitej innowacji tucznik wyrywa farmerowi zwycięstwo z rąk');
 
-INSERT INTO GRY_NA_AKTUALNYM_POZIOMIE VALUES
-    (1, 1, 5, NULL, NULL, 1);
 
 COMMIT;

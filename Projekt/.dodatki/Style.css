@@ -1,7 +1,6 @@
 td {
-    /* border-bottom: 2px solid #CDC1A7; */
     padding: 1px;
-    font-size: 50px;
+    font-size: 30px;
 }
 th {
     font-family: "Trebuchet MS", Arial, Verdana;
@@ -12,12 +11,6 @@ th {
     border-bottom-color: #CDC1A7;
     background-color: #CDC1A7;
     color: #993300;
-}
-p {
-    font-size: 70px;
-}
-h1 {
-    font-size: 80px;
 }
 
 body {
@@ -33,22 +26,7 @@ p {
     color: darkorange;
     border: 8px solid green;
     padding: 30px;
-    font-size: 70pt;
-}
-
-th {
-    font-family: "Trebuchet MS", Arial, Verdana;
-    font-size: x-large;
-    padding: 5px;
-    border-bottom-width: 1px;
-    border-bottom-style: solid;
-    border-bottom-color: #CDC1A7;
-    background-color: #CDC1A7;
-    color: #993300;
-}
-td {
-    padding: 1px;
-    font-size: 50px;
+    font-size: 40pt;
 }
 tr {
     margin: auto;

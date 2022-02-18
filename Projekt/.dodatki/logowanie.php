@@ -14,7 +14,7 @@
         }
         else {
             $_SESSION['CONNECTION'] = $conn;
-            header("Location: ./Main.html");
+            header("Location: ./Main.php");
             exit;
         }
         //oci_close($conn);

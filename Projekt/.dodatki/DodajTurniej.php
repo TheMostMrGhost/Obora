@@ -36,10 +36,6 @@
         $_SESSION['rank_game'] = 'SZACHY';
     }
 
-    if (!isset($_SESSION['region'])) {
-        $_SESSION['region'] = 'NULL';
-    }
-
     $creation_possible = true;
 
     if (!isset($ranking_table)) {
@@ -49,19 +45,19 @@
     if (!isset($_SESSION['ile_graczy']))
         $_SESSION['ile_graczy'] = $_POST['ile_graczy'];
 
-    if (!isset($_SESSION['gra_rank']))
-        $_SESSION['gra_rank'] = $_POST['gra_rank'];
+    $_SESSION['gra_rank'] = $_POST['gra_rank'];
 
     if (!isset($_SESSION['region'])) 
         $_SESSION['region'] = $_POST['region'];
+
 
     $row_count = "SELECT DISTINCT COUNT(ID_GRACZA) ILE 
     FROM $ranking_table 
     JOIN KONTO ON ID_GRACZA = ID
     WHERE GRA = '".$_SESSION['gra_rank']."'";
 
-    if ($_SESSION['region'] != 'NULL') {
-        $row_count .=" AND REGION = '".$_SESSION['region']."'";
+    if ($_POST['region'] != 'NULL') {
+        $row_count .=" AND REGION = '".$_POST['region']."'";
     }
 
     $row_count_stmt = oci_parse($conn, $row_count);
@@ -75,8 +71,10 @@
         $creation_possible = false;
     }
 
-    
-    //header("Location: ./Turniej.php");
+    if (isset($_SESSION['error']) && !isset($_SESSION['is_created'])) {
+        header("Location: ./Turniej.php");
+        exit;
+    }
 ?>
 <!DOCTYPE html>
 <html lang="pl">
@@ -109,17 +107,16 @@
                         JOIN KONTO ON ID_GRACZA = ID
                         WHERE GRA = '".$_SESSION['gra_rank']."'"; 
 
-                    if ($_SESSION['region'] != 'NULL') {
-                        $players .=" AND REGION = '".$_SESSION['region']."'";
+                    if ($_POST['region'] != 'NULL') {
+                        $players .=" AND REGION = '".$_POST['region']."'";
                     }
+                    
 
                     $players .= " ORDER BY LICZBA_PUNKTOW DESC FETCH FIRST ".$_SESSION['ile_graczy']." ROWS ONLY";
                         
                     $find_players = oci_parse($conn, $players);
 
                     $last_added_row = "SELECT IDTURNIEJ_SEQ.CURRVAL ID FROM DUAL";
-                    //$last_added_row = "SELECT MAX(ID_TURNIEJU) ID FROM TURNIEJ";
-                    //$last_added_row = "SELECT DISTINCT FIRST_VALUE(ID_TURNIEJU) OVER (ORDER BY ID_TURNIEJU DESC) ID FROM TURNIEJ";
                     $last_added_row_stmt = oci_parse($conn, $last_added_row);
                     oci_execute($last_added_row_stmt, OCI_NO_AUTO_COMMIT);
 
@@ -134,7 +131,6 @@
                         for ($ii=0; $ii < 2 * $_SESSION['ile_graczy']; $ii++) { 
                             $_SESSION['wins'][$ii] = -1;
                             $_SESSION['to_ins'][$ii] = "";
-                            //echo $_SESSION['to_ins'][$ii];
                         }
                     }
 
@@ -146,11 +142,11 @@
                     for ($ii = 0; $ii < $_SESSION['ile_graczy'] / $ile; $ii++) { 
                         for ($jj = 0; $jj < $ile; $jj++) { 
                             $row = oci_fetch_array($find_players, OCI_BOTH);
+
                             $to_ins = "INSERT INTO UCZESTNIK_TURNIEJU VALUES (".$row['ID_GRACZA'].",".$_SESSION['turniej_id'].", 0)";
                             $_SESSION['wins'][2 * $_SESSION['ile_graczy'] -  2 * $ii - $jj - 1] = $row['ID_GRACZA'];
                             $_SESSION['nick']["'".$row['ID_GRACZA']."'"] = $row['NICK'];
-                            //echo "'".$row['ID_GRACZA']."'";
-                            //echo $_SESSION['nick']["'".$row['ID_GRACZA']."'"]; 
+
                             $ins_stmt = oci_parse($conn, $to_ins);
                             oci_execute($ins_stmt, OCI_NO_AUTO_COMMIT);
                             oci_commit($conn);
@@ -159,13 +155,13 @@
 
                     oci_commit($conn);
                 }
-                if (!$creation_possible){
+                if (!$creation_possible && !isset($_SESSION['is_created'])){
                     $_SESSION['error'] = "Nie można zrobić drużyny!";
                 }
 
                 // Prezentacja drabinki
                 // Tworzymy tabelę zwycięzców
-                if ($creation_possible) {
+                if ($creation_possible || isset($_SESSION['is_created'])) {
 
                 echo "<table width = 100%>";
                 echo "<tr align = center height = 150px>";

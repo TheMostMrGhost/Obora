@@ -18,9 +18,6 @@
         $_SESSION['wins'][$_SESSION['changed']] = $_SESSION['winner']; 
         $_SESSION['to_ins'][$_SESSION['changed']] = "INSERT INTO HISTORIA_TURNIEJU VALUES (".$_SESSION['turniej_id'].",".
         $_SESSION['winner'].",".$loser.", NULL, NULL,".$_SESSION['winner'].","."'".$_POST['description']."'".")";
-        //echo $_SESSION['winner'];
-        //echo $_SESSION['to_ins'][$_SESSION['changed']];
-        //echo $_SESSION['changed'];
     }
 
     if ($_SESSION['changed'] == 0) {

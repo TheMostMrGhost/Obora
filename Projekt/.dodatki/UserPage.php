@@ -94,9 +94,6 @@
                 ?></td>
                 <td>
                        
-                <form action="Download.php" method = "post">
-                    <input type="submit">
-                </form>
                 </td>
             </tr>
             <tr><td><a href="History.php" align = center>Historia gier</a></td></tr>
@@ -111,7 +108,6 @@
                 <form action="
                     <?php
 
-                        // TODO wyszukiwanie id
                         $find = "SELECT ID FROM KONTO WHERE NICK = '".$_POST['Friend']."'";
                         $find_id = oci_parse($conn, $find);
                         oci_execute($find_id, OCI_NO_AUTO_COMMIT);
@@ -153,7 +149,6 @@
                             $del_stmt = oci_parse($conn, $del_f);
                             oci_execute($del_stmt, OCI_NO_AUTO_COMMIT);
                             oci_commit($conn);
-                            //echo $_POST['friend_to_del'];
                         }
                     }
                 ?>" method = 'post'>
@@ -241,7 +236,7 @@
                     
                 >
                     <?php
-                        $games = "SELECT nazwa FROM GRA";
+                        $games = "SELECT DISTINCT nazwa FROM GRA";
                     
                         $gm_stmt = oci_parse($conn, $games);
                         oci_execute($gm_stmt, OCI_NO_AUTO_COMMIT);

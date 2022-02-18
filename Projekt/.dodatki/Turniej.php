@@ -26,12 +26,9 @@
     if (isset($_SESSION['comm']))
         unset($_SESSION['comm']);
 
-    if (isset($_SESSION['is_created']))
-        unset($_SESSION['is_created']);
 
     if (isset($_SESSION['turniej_id']))
         unset($_SESSION['turniej_id']);
-//    $rank_game = 'SZACHY';
 ?>
 <!DOCTYPE html>
 <html lang="pl">
@@ -41,7 +38,7 @@
 
         <link rel="stylesheet" href="TurniejStyle.css" type="text/css">
         <?php
-            echo "<h1 > Turnieje".' [<a href="Main.html">Wróć</a>]</h1>';
+            echo "<h1 > Turnieje".' [<a href="Main.php">Wróć</a>]</h1>';
         ?>
         <style>
             .error
@@ -92,12 +89,6 @@
                             <option value=16>16</option>
                         </select>
                     </td></tr>
-                    <!-- <tr><td>Wybierz liczbę osób <br>w grupie starowej:</td><td> -->
-                        <!-- <select name="ile" id="ile"> -->
-                            <!-- <option value=2 selected = selected>2</option> -->
-                            <!-- <option value=4 >4</option> -->
-                        <!-- </select> -->
-                    <!-- </td></tr> -->
                     <tr>
                         <td>Wybierz region:</td>
                         <td>
@@ -117,29 +108,32 @@
                                 echo ">"."BRAK"."</option>";
 
                                 while (($row = oci_fetch_array($reg_filter, OCI_BOTH))) {
-                                echo "<option value=".$row['REGION'];
+                                    echo "<option value='".$row['REGION']."'";
 
-                                if ($_SESSION['region'] == $row['REGION']) {
-                                echo " selected = \"selected\"";
-                                }
+                                    if ($_SESSION['region'] == $row['REGION']) {
+                                    echo " selected = \"selected\"";
+                                    }
 
-                                echo ">".$row['REGION']."</option>";
+                                    echo ">".$row['REGION']."</option>";
                                 }
 
                                 echo "</select>";
                             ?>
                         </td>
                     </tr>
+                    
                     <tr><td>Potwierdzenie</td><td><input type="submit" value="Zatwierdź"></td></tr>
                 </form></table>
             </td></tr>
         </table>
     <?php
-        if(isset($_SESSION['error'])) {
-            echo '<div class="error">Nie da się</div>';
+        if(isset($_SESSION['error']) && !isset($_SESSION['is_created'])) {
+            echo '<div class="error">Zbyt mało graczy odpowiadającym wymaganim,<br> utworzenie turnieju jest niemożliwe!</div>';
             unset($_SESSION['error']);
-            echo $_SESSION['ILE'];
         }
+
+        if (isset($_SESSION['is_created']))
+            unset($_SESSION['is_created']);
     ?>
         
     </body>

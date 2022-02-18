@@ -25,19 +25,4 @@
     }
     else header("Location: ./DodajTurniejHLP.php");
     
-    //echo $_SESSION['changed']; 
-    //echo $_SESSION['winner']; 
-    //echo $loser; 
-    //if ($_SESSION['wins'][0] != -1 && !isset($_SESSION['comm'])) {// 
-        //$_SESSION['comm'] = 1;
-
-        //for ($ii = 1; $ii < 2 * $_SESSION['ile_graczy']; $ii++) { 
-            //$ins = $_SESSION['to_ins'][$ii];
-            //echo $ins;
-            
-            //$insert = oci_parse($conn, $ins);
-            //oci_execute($insert);
-        //}
-        //oci_commit($conn);
-    //}
 ?>

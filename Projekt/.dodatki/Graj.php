@@ -73,29 +73,40 @@
 
         <form action="
             <?php
-                //add_game($me, $enemy, $winner, $game, $game_rec, $id);
-                //add_game($user_id, $_POST['przeciwnik'], $_POST['zwyc'], $_POST['gra'], $_POST['przebieg'], $_POST['id']);
                 $is_ok = true;
 
-                if ($user_id == $_POST['przeciwnik'] or ($_POST['zwyc'] != $user_id and $_POST['zwyc']!= $_POST['przeciwnik'])) {
+                $find = "SELECT ID FROM KONTO WHERE NICK = '".$_POST['przeciwnik']."'";
+                $find_id = oci_parse($conn, $find);
+                oci_execute($find_id, OCI_NO_AUTO_COMMIT);
+                $row = oci_fetch_array($find_id, OCI_BOTH);
+
+                $find2 = "SELECT ID FROM KONTO WHERE NICK = '".$_POST['zwyc']."'";
+                $find2_id = oci_parse($conn, $find2);
+                oci_execute($find2_id, OCI_NO_AUTO_COMMIT);
+                $row2 = oci_fetch_array($find2_id, OCI_BOTH);
+
+                $enemy_id = $row['ID'];
+                $loser = $enemy_id;
+                $winner = $row2['ID'];
+                
+                if ($winner == $loser) {
+                    $loser = $user_id;
+                    $winner = $enemy_id;
+                }
+
+                if ($user_id == $enemy_id or ($winner != $user_id and $winner != $enemy_id)) {
                     $is_ok = false;
                 }
 
                 if ($is_ok) { 
                     $game_text = "INSERT INTO ROZGRYWKI (ID_ROZGRYWKI, GRACZ1, GRACZ2, ID_ZWYCIEZCY, GRA, PRZEBIEG_PARTII) ".
-                    "VALUES (0,$user_id,".$_POST['przeciwnik'].",".$_POST['zwyc'].",'".$_POST['gra']."','".$_POST['przebieg']."')";
-
+                    "VALUES (0,$user_id,$enemy_id, $winner,'".$_POST['gra']."','".$_POST['przebieg']."')";
+                    
                     $game_stmt = oci_parse($conn, $game_text);
                     oci_execute($game_stmt, OCI_NO_AUTO_COMMIT);
 
-                    $loser = $_POST['przeciwnik'];
-
-                    if ($_POST['zwyc'] == $loser) {
-                        $loser = $user_id;
-                    }
-
-                    $check_if_i_exist = "SELECT * FROM PUNKTY WHERE  id_gracza = $id";
-                    $check_if_enemy_exist = "SELECT * FROM PUNKTY WHERE  id_gracza = ".$_POST['przeciwnik'];
+                    $check_if_i_exist = "SELECT * FROM PUNKTY WHERE  id_gracza = $user_id";
+                    $check_if_enemy_exist = "SELECT * FROM PUNKTY WHERE  id_gracza = $enemy_id";
 
                     $i_exist_stmt = oci_parse($conn, $check_if_i_exist);
                     $enemy_exists_stmt = oci_parse($conn, $check_if_enemy_exist);
@@ -109,52 +120,40 @@
                         $add = "INSERT INTO PUNKTY VALUES ($user_id, '".$_POST['gra']."',0)";
                         $add_stmt = oci_parse($conn, $add); 
                         oci_execute($add_stmt, OCI_NO_AUTO_COMMIT);
+                        oci_commit($conn);
                     }
 
                     $row = oci_fetch_array($enemy_exists_stmt, OCI_BOTH);
                 
                     // Jeśli nie istnieje jeszcze taki rekord to go dodajemy do bazy na punkty     
                     if (!$row) {
-                        $add = "INSERT INTO PUNKTY VALUES (".$_POST['przeciwnik'].", '".$_POST['gra']."',0)";
+                        $add = "INSERT INTO PUNKTY VALUES ($enemy_id, '".$_POST['gra']."',0)";
                         $add_stmt = oci_parse($conn, $add); 
                         oci_execute($add_stmt, OCI_NO_AUTO_COMMIT);
+                        oci_commit($conn);
                     }
-
-                    //$pkt_upgrade_winner = "UPDATE PUNKTY SET LICZBA_PUNKTOW = LICZBA_PUNKTOW + $def_pkt_to_add WHERE ID_GRACZA = ".$_POST['zwyc']." AND GRA = '".$_POST['gra']."'";
-                    //$pkt_upgrade_loser = "UPDATE PUNKTY SET LICZBA_PUNKTOW = LICZBA_PUNKTOW + $def_pkt_to_lose WHERE ID_GRACZA = $loser"." AND GRA = '".$_POST['gra']."'";
-
-                    //$winner_stmt = oci_parse($conn, $pkt_upgrade_winner);
-                    //$loser_stmt = oci_parse($conn, $pkt_upgrade_loser);
-                    //oci_execute($winner_stmt, OCI_NO_AUTO_COMMIT);
-                    //oci_execute($loser_stmt, OCI_NO_AUTO_COMMIT);
 
                     $sql = 'BEGIN aktualizuj_pkt(:gra, :gracz1, :gracz2); END;';
                     
                     $stmt = oci_parse($conn,$sql);
-                    // Bind the input parameter
                     oci_bind_by_name($stmt,':gra',$_POST['gra'],32);
-                    oci_bind_by_name($stmt,':gracz1',$_POST['zwyc'],32);
+                    oci_bind_by_name($stmt,':gracz1',$winner,32);
                     oci_bind_by_name($stmt,':gracz2',$loser,32);
                     
-                    // Assign a value to the input 
-                    //$name = 'Harry';
-                    
                     oci_execute($stmt);
-
-
                     oci_commit($conn);
                 }
+                
             ?>
         " method = "post">
-            <!-- FIXME TODO usunąć id-->
             <table align = center >
                 <tr>
                     <td>Wpisz przeciwnika:</td>
-                    <td><input type="number" name="przeciwnik"></td>
+                    <td><input type="text" name="przeciwnik"></td>
                 </tr>
                 <tr>
                     <td>Wpisz zwycięzcę:</td>
-                    <td><input type="number" name="zwyc"><br></td>
+                    <td><input type="text" name="zwyc"><br></td>
                 </tr>
                 <tr>
                     <td>Wpisz grę:</td>
@@ -167,7 +166,6 @@
                             echo "<select id=\"gra\" name=\"gra\">";
 
                             while (($row = oci_fetch_array($gm_stmt, OCI_BOTH))) {
-                                //echo "<a onclick='Graj.php?GRA=".$row['NAZWA'].">";
                                 echo "<option value = ".$row['NAZWA'].">".$row['NAZWA']."</option>";
                             }
 
