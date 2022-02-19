@@ -74,10 +74,10 @@
                 $wrog = "SELECT ID_ROZGRYWKI, NICK, PRZEBIEG_PARTII, ID_ZWYCIEZCY 
                 FROM ( 
                     (SELECT ID_ROZGRYWKI, GRACZ1 AS WROG, PRZEBIEG_PARTII, ID_ZWYCIEZCY 
-                    FROM ROZGRYWKI WHERE GRACZ2 = $user_id) 
+                    FROM ROZGRYWKA WHERE GRACZ2 = $user_id) 
                     UNION ALL 
                     (SELECT ID_ROZGRYWKI, GRACZ2 AS WROG, PRZEBIEG_PARTII, ID_ZWYCIEZCY 
-                    FROM ROZGRYWKI WHERE GRACZ1 = $user_id)
+                    FROM ROZGRYWKA WHERE GRACZ1 = $user_id)
                     ) 
                 JOIN KONTO ON WROG = ID
                 ORDER BY ID_ROZGRYWKI";

@@ -2,11 +2,6 @@
     session_start();    
     $username = $_SESSION['LOGINDB'];
     $user_id = $_SESSION['USER_ID'];
-
-    // TODO
-    $def_pkt_to_add = 50;
-    $def_pkt_to_lose = -30;
-
     $conn = oci_pconnect($_SESSION['LOGIN'], $_SESSION['PASSWORD'], "//labora.mimuw.edu.pl/LABS");
 
     if (!$conn) {
@@ -29,14 +24,13 @@
 <meta charset="utf-8">
     <head>
         <title>GAME PAGE</title>
-        <link rel="stylesheet" href="Style.css">
+        <link rel="stylesheet" href="TurniejStyle.css">
         <?php
             // TODO skasować to 
             echo "<h1> Panel gry gracza  ".$_SESSION['LOGINDB'].' [<a href="UserPage.php">Wróć</a>]</h1>';
         ?>
         <style type='text/css'>
             td {
-                /* border-bottom: 2px solid #CDC1A7; */
                 padding: 1px;
                 font-size: 25pt;
                 color: white; 
@@ -69,7 +63,9 @@
         </style>
     </head>
     <body>
-        <p>Gram w gierkę, ale fajnie</p>
+        <div class="granie" align = center>
+        Gram w gierkę, ale fajnie!
+        </div>
 
         <form action="
             <?php
@@ -99,19 +95,15 @@
                 }
 
                 if ($is_ok) { 
-                    $game_text = "INSERT INTO ROZGRYWKI (ID_ROZGRYWKI, GRACZ1, GRACZ2, ID_ZWYCIEZCY, GRA, PRZEBIEG_PARTII) ".
-                    "VALUES (0,$user_id,$enemy_id, $winner,'".$_POST['gra']."','".$_POST['przebieg']."')";
+                    $game_text = "INSERT INTO ROZGRYWKA (ID_ROZGRYWKI, GRACZ1, GRACZ2, ID_ZWYCIEZCY, GRA, PKT_PRZEWAGI, PRZEBIEG_PARTII) ".
+                    "VALUES (0,$user_id,$enemy_id, $winner,'".$_POST['gra']."', 100,'".$_POST['przebieg']."')";
                     
                     $game_stmt = oci_parse($conn, $game_text);
                     oci_execute($game_stmt, OCI_NO_AUTO_COMMIT);
 
-                    $check_if_i_exist = "SELECT * FROM PUNKTY WHERE  id_gracza = $user_id";
-                    $check_if_enemy_exist = "SELECT * FROM PUNKTY WHERE  id_gracza = $enemy_id";
-
+                    $check_if_i_exist = "SELECT * FROM PUNKTY WHERE  id_gracza = $user_id AND gra='".$_POST['gra']."'";
                     $i_exist_stmt = oci_parse($conn, $check_if_i_exist);
-                    $enemy_exists_stmt = oci_parse($conn, $check_if_enemy_exist);
                     oci_execute($i_exist_stmt, OCI_NO_AUTO_COMMIT);
-                    oci_execute($enemy_exists_stmt, OCI_NO_AUTO_COMMIT);
 
                     $row = oci_fetch_array($i_exist_stmt, OCI_BOTH);
                 
@@ -123,23 +115,30 @@
                         oci_commit($conn);
                     }
 
-                    $row = oci_fetch_array($enemy_exists_stmt, OCI_BOTH);
+                    $check_if_enemy_exist = "SELECT * FROM PUNKTY WHERE id_gracza = $enemy_id AND gra='".$_POST['gra']."'";
+                    $enemy_exists_stmt = oci_parse($conn, $check_if_enemy_exist);
+                    oci_execute($enemy_exists_stmt, OCI_NO_AUTO_COMMIT);
+                    $row2 = oci_fetch_array($enemy_exists_stmt, OCI_BOTH);
                 
                     // Jeśli nie istnieje jeszcze taki rekord to go dodajemy do bazy na punkty     
-                    if (!$row) {
+                    if (!$row2) {
                         $add = "INSERT INTO PUNKTY VALUES ($enemy_id, '".$_POST['gra']."',0)";
                         $add_stmt = oci_parse($conn, $add); 
                         oci_execute($add_stmt, OCI_NO_AUTO_COMMIT);
                         oci_commit($conn);
                     }
 
-                    $sql = 'BEGIN aktualizuj_pkt(:gra, :gracz1, :gracz2); END;';
+                    $get_last_id = "SELECT idrozgrywka_seq.currval ID FROM DUAL";
+                    $last_id_stmt = oci_parse($conn,$get_last_id);
+                    oci_execute($last_id_stmt);
+                    $row = oci_fetch_array($last_id_stmt, OCI_BOTH);
+                    $last_id = $row['ID'];
+
+                    //$sql = 'BEGIN aktualizuj_pkt(:gra, :gracz1, :gracz2); END;';
+                    $sql = 'BEGIN aktualizuj_pkt(:gra_id); END;';
                     
                     $stmt = oci_parse($conn,$sql);
-                    oci_bind_by_name($stmt,':gra',$_POST['gra'],32);
-                    oci_bind_by_name($stmt,':gracz1',$winner,32);
-                    oci_bind_by_name($stmt,':gracz2',$loser,32);
-                    
+                    oci_bind_by_name($stmt,':gra_id',$last_id,32);
                     oci_execute($stmt);
                     oci_commit($conn);
                 }
@@ -177,7 +176,7 @@
                     <td>Wpisz przebieg partii:</td>
                     <td><input type="text" name="przebieg"></td>
                 </tr>
-                <tr><td><input type="submit" value="Dodaj"></td></tr> 
+                <tr><td align = center><input type="submit" value="Dodaj"></td></tr> 
             </table>
 
         </form>

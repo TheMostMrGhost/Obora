@@ -25,7 +25,7 @@
 <html lang="pl">
 <meta charset="utf-8">
     <head>
-        <style type='text/css'>
+        <!-- <style type='text/css'>
             td {
                 /* border-bottom: 2px solid #CDC1A7; */
                 padding: 1px;
@@ -48,23 +48,19 @@
             h1 {
                 font-size: 80px;
             }
-        </style>
+        </style> -->
         <title>UserPage</title>
-        <link rel="stylesheet" href="Style.css" type="text/css">
-        <?php
-            echo "<h1 > Witaj ".$_SESSION['LOGINDB'].'! [<a href="wyloguj.php">Wyloguj</a>]</h1>';
-        ?>
-        
+        <link rel="stylesheet" href="TurniejStyle.css" type="text/css">
     </head>
     <body>
-        <p align = center>Panel główny gracza <?php echo $_SESSION['LOGINDB']; ?></p>
+        <p align = center>Panel główny gracza <?php echo $_SESSION['LOGINDB']; echo ' [<a href="wyloguj.php">Wyloguj</a>]';?></p>
 
-        <table width = 1200>
-            <tr><td >Statystyki we WSZYSTKICH grach:</td></tr>
+        <table width = 1200 align = center>
+            <tr><td>Statystyki we WSZYSTKICH grach:</td></tr>
             <tr>
                 <td>Łączna liczba wyganych:</td>
                 <td><?php 
-                    $tot_win = "SELECT count(*) WIN FROM ROZGRYWKI WHERE ID_ZWYCIEZCY = $user_id";
+                    $tot_win = "SELECT count(*) WIN FROM ROZGRYWKA WHERE ID_ZWYCIEZCY = $user_id";
                     $tot_win_stmt = oci_parse($conn, $tot_win);
                     oci_execute($tot_win_stmt, OCI_NO_AUTO_COMMIT);
                     $row = oci_fetch_array($tot_win_stmt, OCI_BOTH);
@@ -76,7 +72,7 @@
             <tr>
                 <td>Łączna liczba przegranych:</td>
                 <td><?php 
-                    $tot_lost = "SELECT count(*) LOST FROM ROZGRYWKI WHERE ID_ZWYCIEZCY != $user_id AND (GRACZ1 = $user_id OR GRACZ2 = $user_id)";
+                    $tot_lost = "SELECT count(*) LOST FROM ROZGRYWKA WHERE ID_ZWYCIEZCY != $user_id AND (GRACZ1 = $user_id OR GRACZ2 = $user_id)";
                     $tot_lost_stmt = oci_parse($conn, $tot_lost);
                     oci_execute($tot_lost_stmt, OCI_NO_AUTO_COMMIT);
                     $row = oci_fetch_array($tot_lost_stmt, OCI_BOTH);
@@ -96,34 +92,42 @@
                        
                 </td>
             </tr>
-            <tr><td><a href="History.php" align = center>Historia gier</a></td></tr>
+            <tr><td align = center><a href="History.php" align = center>Historia gier</a></td></tr>
         </table>
-        <table width="1800" align = "center">
-            <th>
+        <table width="100%" align = "center">
+            <th >
             <a href="Graj.php">Graj</a>
 
             </th>
             <th>
-                Znajomi
-                <form action="
-                    <?php
+            Znajomi <br>
 
-                        $find = "SELECT ID FROM KONTO WHERE NICK = '".$_POST['Friend']."'";
-                        $find_id = oci_parse($conn, $find);
-                        oci_execute($find_id, OCI_NO_AUTO_COMMIT);
-                        $row = oci_fetch_array($find_id, OCI_BOTH);
-                        
+            <table>
+            <tr>
+            <form action="
+                <?php
+
+                    $find = "SELECT ID FROM KONTO WHERE NICK = '".$_POST['Friend']."'";
+                    $find_id = oci_parse($conn, $find);
+                    oci_execute($find_id, OCI_NO_AUTO_COMMIT);
+                    $row = oci_fetch_array($find_id, OCI_BOTH);
+                    
+                    if ($user_id != $row['ID']) {
                         $add_text = "INSERT INTO ZNAJOMI VALUES ($user_id,".$row['ID'].")"; 
                         $add_stmt = oci_parse($conn, $add_text);
                         oci_execute($add_stmt, OCI_NO_AUTO_COMMIT);
                         oci_commit($conn);
-                    ?>
-                " method = "post">
-                <input type="text" name = "Friend">
-                <input type="submit" value = "Dodaj">
+                    }
+                ?>
+            " method = "post">
+            <input type="text" name = "Friend">
+            <input type="submit" value = "Dodaj">
             </form>
+            </tr>
 
+            <tr>
             <form action="
+
                 <?php
                     $find = "SELECT ID FROM KONTO WHERE NICK = '".$_POST['friend_to_del']."'";
                     $find_id = oci_parse($conn, $find);
@@ -155,11 +159,13 @@
                 <input type="text" name = "friend_to_del">
                 <input type="submit" value = "Usuń">
             </form>
+            </tr>
+            </table>
 
             </th>
             <th>
                 Najlepsi gracze
-                <table>
+                <table align = center>
                     <tr>
                         <td>
                         <form action=
@@ -227,7 +233,7 @@
             <tr>
                 <td 
                     align="center" 
-                    width="500" 
+                    width="400" 
                     valign = "top" 
                     style=
                         "font-size: 25pt;
@@ -268,7 +274,7 @@
 
                         // Wyświetlanie listy znajomych
                         while (($row = oci_fetch_array($fl_stm, OCI_BOTH))) {
-                            echo $row['NICK'];
+                            echo "<span style = \"color : white;\">".$row['NICK']."</span>";
                             echo "<br><br>";
                         }
                     ?>

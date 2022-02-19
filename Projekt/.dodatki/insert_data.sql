@@ -1,92 +1,121 @@
 
+
 INSERT INTO KONTO_DRUZYNOWE VALUES 
     (1, 'SWINSCYBRACHOLE');
 INSERT INTO KONTO_DRUZYNOWE VALUES 
     (2, 'FARMERAMA');
+ 
+INSERT INTO KONTO VALUES 
+    (1, 'EU', 'TUCZNIK', '1234', 'obora@email.com', 'Profesjonalne', NULL ,12345678901234567890);
+INSERT INTO KONTO VALUES 
+    (2, 'EU', 'MOCNALOCHA69', 'TUCZNIK', 'locha@email.com', 'Zwykle', NULL, NULL);
+INSERT INTO KONTO VALUES 
+    (3, 'EU', 'SWINIAK', 'chrum', 'idk@email.com', 'Zwykle', 1 , NULL);
+INSERT INTO KONTO VALUES 
+    (4, 'EU', 'PROSIAK', 'hrum', 'whatever@email.com', 'Zwykle', 1 , NULL);
+INSERT INTO KONTO VALUES 
+    (5, 'EU', 'FARMER', '1234', 'cebulix@email.com', 'Profesjonalne', 2 , 12345678901234533330);
+INSERT INTO KONTO VALUES 
+    (6, 'NA', 'ZIELARZ420', 'weed', '420@email.com', 'Zwykle', 2 , NULL);
+INSERT INTO KONTO VALUES 
+    (7,'NA', 'GRUBAX', 'food', '42069@email.com', 'Zwykle', 2 , NULL);
+INSERT INTO KONTO VALUES 
+    (8, 'ASIA', 'ghost', 'ghost', 'ghost@ghost.ghost', 'Zwykle', NULL , NULL);
 
-INSERT ALL 
-    INTO KONTO VALUES (1, 'EU', 'TUCZNIK', '1234', 'obora@email.com', 'Profesjonalne' ,12345678901234567890)
-    INTO KONTO VALUES (2, 'EU', 'MOCNALOCHA69', 'TUCZNIK', 'locha@email.com', 'Zwykle' , NULL)
-    INTO KONTO VALUES (3, 'EU', 'SWINIAK', 'chrum', 'idk@email.com', 'Zwykle' , NULL)
-    INTO KONTO VALUES (4, 'EU', 'PROSIAK', 'hrum', 'whatever@email.com', 'Zwykle' , NULL)
-    INTO KONTO VALUES (5, 'EU', 'FARMER', '1234', 'cebulix@email.com', 'Profesjonalne' , 12345678901234533330)
-    INTO KONTO VALUES (6, 'NA', 'ZIELARZ420', 'weed', '420@email.com', 'Zwykle' , NULL)
-    INTO KONTO VALUES (7,'NA', 'GRUBAX', 'food', '42069@email.com', 'Zwykle' , NULL)
-    INTO KONTO VALUES (8, 'ASIA', 'ghost', 'ghost', 'ghost@ghost.ghost', 'Zwykle' , NULL)
-SELECT 1 FROM DUAL;
+INSERT INTO ZNAJOMI VALUES
+    (1, 2);
+INSERT INTO ZNAJOMI VALUES
+    (3, 4);
+INSERT INTO ZNAJOMI VALUES
+    (1, 5);
+INSERT INTO ZNAJOMI VALUES
+    (6, 7);
+INSERT INTO ZNAJOMI VALUES 
+    (8, 1);
+INSERT INTO ZNAJOMI VALUES 
+    (8, 7);
 
-INSERT INTO ZNAJOMI VALUES (1, 2);
-INSERT INTO ZNAJOMI VALUES (8, 1);
-INSERT INTO ZNAJOMI VALUES (8, 7);
-INSERT INTO ZNAJOMI VALUES (3, 4);
-INSERT INTO ZNAJOMI VALUES (1, 5);
-INSERT INTO ZNAJOMI VALUES (6, 7);
-
-INSERT INTO GRA VALUES ('SUPERFARMER', 'NIE WIEM XD');
+INSERT INTO GRA VALUES 
+    ('SUPERFARMER', 'BRYDZOWY');
 INSERT INTO GRA VALUES
     ('SZACHY', 'SZACHOWY');
-
-INSERT INTO ROZGRYWKI VALUES
-    (1, 1, 5, NULL, NULL, 1, 'SZACHY', 'pykpyk i szachmat');
-INSERT INTO ROZGRYWKI VALUES
-    (2, 1, 5, NULL, NULL, 1, 'SZACHY', 'farmer instant poddaje po ujrzeniu potęgi tucznika');
-INSERT INTO ROZGRYWKI VALUES
-    (3, 1, 2, 3, 4, 1, 'SUPERFARMER', 'tucznik wygrywa obv');
-INSERT INTO ROZGRYWKI VALUES
-    (4, 1, 3, 4, NULL, 2, 'SUPERFARMER', 'zrobili sojusz, nie miał szans w nierównej grze');
-INSERT INTO ROZGRYWKI VALUES
-    (5, 6, 7, NULL, NULL, 6, 'SZACHY', 'grubasa rozproszyła dostawa pizzy i zielarz to wykorzystal');
-INSERT INTO ROZGRYWKI VALUES
-    (6, 2, 3, 4, 5, 2, 'SUPERFARMER', 'baba wygrała cooo?!?!?!??!?');
+INSERT INTO GRA VALUES
+    ('BRYDZ', 'BRYDZOWY');
 
 INSERT INTO PUNKTY VALUES
-    (1, 'SZACHY', 100);
+    (1, 'SZACHY', 2500);
 INSERT INTO PUNKTY VALUES
-    (2, 'SZACHY', 1);
+    (2, 'SZACHY', 1000);
 INSERT INTO PUNKTY VALUES
-    (3, 'SZACHY', 21);
+    (3, 'SZACHY', 1765);
 INSERT INTO PUNKTY VALUES
-    (4, 'SZACHY', 42);
+    (4, 'SZACHY', 1345);
 INSERT INTO PUNKTY VALUES
-    (5, 'SZACHY', 66);
+    (5, 'SZACHY', 1500);
 INSERT INTO PUNKTY VALUES
-    (6, 'SZACHY', 424);
+    (6, 'SZACHY', 1900);
 INSERT INTO PUNKTY VALUES
-    (7, 'SZACHY', 17);
+    (7, 'SZACHY', 1200);
 INSERT INTO PUNKTY VALUES
-    (1, 'SUPERFARMER', 100);
+    (1, 'SUPERFARMER', 1000000);
 INSERT INTO PUNKTY VALUES
     (2, 'SUPERFARMER', 1);
 INSERT INTO PUNKTY VALUES
-    (3, 'SUPERFARMER', 100);
+    (3, 'SUPERFARMER', 10001);
 INSERT INTO PUNKTY VALUES
-    (4, 'SUPERFARMER', 10);
+    (4, 'SUPERFARMER', 1000);
 INSERT INTO PUNKTY VALUES
     (5, 'SUPERFARMER', 657);
 INSERT INTO PUNKTY VALUES
     (6, 'SUPERFARMER', 420);
 INSERT INTO PUNKTY VALUES
     (7, 'SUPERFARMER', 3);
+INSERT INTO PUNKTY VALUES
+    (1, 'BRYDZ', 0);
+INSERT INTO PUNKTY VALUES
+    (2, 'BRYDZ', 0);
+INSERT INTO PUNKTY VALUES
+    (3, 'BRYDZ', 1);
+INSERT INTO PUNKTY VALUES
+    (4, 'BRYDZ', 1);
+INSERT INTO PUNKTY VALUES
+    (5, 'BRYDZ', 0);
+INSERT INTO PUNKTY VALUES
+    (6, 'BRYDZ', 0);
+INSERT INTO PUNKTY VALUES
+    (7, 'BRYDZ', 0);
+
+
+INSERT INTO ROZGRYWKA VALUES
+    (1, 1, 5, NULL, NULL, 5, 'SZACHY', NULL, 'pykpyk i szachmat');
+INSERT INTO ROZGRYWKA VALUES
+    (2, 1, 5, NULL, NULL, 5, 'SZACHY', NULL, 'farmer instant poddaje po ujrzeniu potęgi tucznika');
+INSERT INTO ROZGRYWKA VALUES
+    (3, 1, 2, 3, 4, 1, 'SUPERFARMER', 50, 'tucznik wygrywa obv');
+INSERT INTO ROZGRYWKA VALUES
+    (4, 1, 3, 4, 5, 3, 'BRYDZ', 10, 'zrobili sojusz, nie miał szans w nierównej grze');
+INSERT INTO ROZGRYWKA VALUES
+    (5, 6, 7, NULL, NULL, 7, 'SZACHY', NULL, 'grubasa rozproszyła dostawa pizzy i zielarz to wykorzystal');
+INSERT INTO ROZGRYWKA VALUES
+    (6, 2, 3, 4, 5, 2, 'SUPERFARMER', 1500, 'baba wygrała cooo?!?!?!??!?');
 
 INSERT INTO TURNIEJ VALUES
     (1, 'DOZYNKI', 'SZACHY', TO_DATE('28/08/2022', 'DD/MM/YYYY'));
 
-INSERT INTO TURNIEJ VALUES
-    (2, 'DOZYNKI2', 'SZACHY', TO_DATE('28/08/2022', 'DD/MM/YYYY'));
-
-INSERT ALL 
-    INTO UCZESTNIK_TURNIEJU VALUES (1, 1, 1000001)
-    INTO UCZESTNIK_TURNIEJU VALUES (2, 1, 73)
-    INTO UCZESTNIK_TURNIEJU VALUES (3, 1, 1234) 
-    INTO UCZESTNIK_TURNIEJU VALUES (4, 1, 123321)
-SELECT 1 FROM DUAL;
+INSERT INTO UCZESTNIK_TURNIEJU VALUES 
+    (1, 1, 1000001);
+INSERT INTO UCZESTNIK_TURNIEJU VALUES 
+    (2, 1, 73);    
+INSERT INTO UCZESTNIK_TURNIEJU VALUES 
+    (3, 1, 1234);
+INSERT INTO UCZESTNIK_TURNIEJU VALUES 
+    (5, 1, 123321);
 
 INSERT INTO HISTORIA_TURNIEJU VALUES
-    (1, 1, 2, NULL, NULL, 1,'BEZ LITOŚCI DLA BAB');
+    (1, 1, 2, 1, NULL, NULL, 'BEZ LITOŚCI DLA BAB');
 INSERT INTO HISTORIA_TURNIEJU VALUES
-    (1, 3, 4, NULL, NULL, 3,'Bez ziomeczka morale spadają i bez większych trudności farmer sprzedaje mata w 24 ruchach');
+    (1, 3, 5, 5, NULL, NULL, 'Bez ziomeczka morale spadają i bez większych trudności farmer sprzedaje mata w 24 ruchach');
 INSERT INTO HISTORIA_TURNIEJU VALUES
-    (1, 1, 3, NULL, NULL, 3, 'Epicki pojedynek niemalże na najwyższym poziomie który do 25 ruchu przebiegał zgodnie ze słynną partią z 85 Karpova z Kasparovem jednak dzięki niesamowitej innowacji tucznik wyrywa farmerowi zwycięstwo z rąk');
-
+    (1, 1, 5, 1, NULL, NULL, 'Epicki pojedynek niemalże na najwyższym poziomie który do 25 ruchu przebiegał zgodnie ze słynną partią z 85 Karpova z Kasparovem jednak dzięki niesamowitej innowacji tucznik wyrywa farmerowi zwycięstwo z rąk');
 
 COMMIT;

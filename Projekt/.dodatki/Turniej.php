@@ -54,13 +54,14 @@
     <body>
         <p align = center style="font-size: 30pt">Witaj na stronie głównej turniejów! <br> Niech rozpocznie się rywalizacja!</p>
 
-        <table width="1800" align = "center">
-            <tr><td>
-                <table width = 1000><form action="DodajTurniej.php" method ="post">
-                    <tr><td align = center>Dodaj turniej:</td></tr>
-                    <tr><td>Wpisz nazwę:</td><td><input type="text" name = "nazwa"></td>
+        <table width="100%" align = "center">
+            <tr><td align = center>
+                <table width = 1000>
+                    <form action="DodajTurniej.php" method ="post">
+                    <tr><td align = center colspan = 2>Dodaj turniej:</td></tr>
+                    <tr><td>Wpisz nazwę:</td><td align = right><input type="text" name = "nazwa"></td>
                     <tr><td>Wybierz grę:</td>
-                    <td>
+                    <td align = right>
                         <?php
                             $poss_games = "SELECT NAZWA FROM GRA";
                             $avl_games = oci_parse($conn, $poss_games);
@@ -82,7 +83,7 @@
                         ?>
                     </td>
                     </tr>
-                    <tr><td>Wybierz liczbę graczy:</td><td>
+                    <tr><td>Wybierz liczbę graczy:</td><td align = right>
                         <select name="ile_graczy" id="ile_graczy">
                             <option value=4 selected = selected>4</option>
                             <option value=8>8</option>
@@ -91,7 +92,7 @@
                     </td></tr>
                     <tr>
                         <td>Wybierz region:</td>
-                        <td>
+                        <td align = right>
                             <?php
                                 $reg = "SELECT DISTINCT REGION from konto";
                                 $reg_filter = oci_parse($conn, $reg);
@@ -122,7 +123,7 @@
                         </td>
                     </tr>
                     
-                    <tr><td>Potwierdzenie</td><td><input type="submit" value="Zatwierdź"></td></tr>
+                    <tr ><td align = center colspan = 2><input type="submit" value="Zatwierdź"></td></tr>
                 </form></table>
             </td></tr>
         </table>
